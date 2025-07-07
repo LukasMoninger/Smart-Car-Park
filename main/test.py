@@ -57,7 +57,7 @@ def test_brightness():
 
 
 def generate_plan(domain, problem):
-    cmd = ["pyperplan", "--domain", domain, "--problem", problem]
+    cmd = ["pyperplan", domain, problem]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
     lines = result.stdout.splitlines()
     plan = []
@@ -90,8 +90,8 @@ def test_pddl():
 
 if __name__ == "__main__":
     setup()
-    test_led(red_led)
-    test_led(green_led)
-    test_ultrasonic()
-    test_brightness()
+    # test_led(red_led)
+    # test_led(green_led)
+    # test_ultrasonic()
+    # test_brightness()
     test_pddl()

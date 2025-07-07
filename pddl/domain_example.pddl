@@ -1,7 +1,7 @@
 (define (domain example)
   (:requirements :strips :typing)
   (:types
-     location
+     robot location
   )
   (:predicates
      (at ?r - robot ?l - location)
