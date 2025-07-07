@@ -84,7 +84,7 @@ def test_pddl():
 def test_generate_plan(domain, problem):
     timeout = 5
     cmd = ["pyperplan", domain, problem]
-    solution_file = os.path.splitext(domain)[0] + ".soln"
+    solution_file = problem + ".soln"
 
     if os.path.exists(solution_file):
         os.remove(solution_file)
