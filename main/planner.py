@@ -2,11 +2,60 @@ import subprocess
 import os
 import time
 
-from main.actuators import switch_light_green, switch_light_red
+from main.actuators import switch_light_green, switch_light_red, status_green_led, status_red_led
+from main.sensors import read_ultrasonic
 
 
-def generate_domain():
-    domain = ""
+def start_planner():
+    interval = 2
+    while True:
+        domain = "../pddl/domain.pddl"
+        problem = generate_problem()
+        plan = generate_plan(domain, problem)
+        print("Generated Plan of length ", len(plan))
+        print("Plan:", plan)
+        execute_plan(plan)
+        time.sleep(interval)
+
+
+def generate_problem():
+    text = """(define (problem smart_car_park_problem)
+  (:domain smart_car_park)
+  (:objects
+    g1 - green_light
+    r1 - red_light
+    u1 - ultrasonic
+  )
+  (:init"""
+
+    if status_green_led:
+        text += "\n    (on g1)"
+    else:
+        text += "\n    (not (on g1))"
+    if status_red_led:
+        text += "\n    (on r1)"
+    else:
+        text += "\n    (not (on r1))"
+
+    distance = read_ultrasonic()
+    if distance < 20:
+        text += "\n    (detected u1)"
+    else:
+        text += "\n    (not (detected u1))"
+
+    text += """)
+  (:goal
+    (and
+      (on g1)
+      (not (on r1))
+    )
+  )
+)"""
+    print(text)
+    problem_file = "../pddl/smart_car_park_problem.pddl"
+    with open(problem_file, "w") as file:
+        file.write(text)
+    return problem_file
 
 
 def generate_plan(domain, problem):

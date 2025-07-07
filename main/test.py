@@ -3,6 +3,7 @@ import grovepi
 import subprocess
 import os
 
+from main.planner import start_planner
 from notification import send_text_notification
 
 light_sensor = 0
@@ -14,7 +15,7 @@ test_led_flag = False
 test_ultrasonic_flag = False
 test_brightness_flag = False
 test_messaging_flag = False
-test_pddl_flag = True
+test_pddl_flag = False
 
 
 def setup():
@@ -99,7 +100,6 @@ def test_generate_plan(domain, problem):
     with open(solution_file, "r") as file:
         for line in file:
             line = line.strip()
-            print(line)
             if not line:
                 continue
             plan.append(line)
@@ -133,3 +133,5 @@ if __name__ == "__main__":
         test_messaging()
     if test_pddl_flag:
         test_pddl()
+
+    start_planner()
