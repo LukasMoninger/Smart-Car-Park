@@ -58,7 +58,8 @@ def test_brightness():
 
 
 def generate_plan(domain, problem):
-    cmd = ["pyperplan", domain, problem]
+    #cmd = ["pyperplan", domain, problem]
+    cmd = ["pyperplan", "-h", "debug", domain, problem]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
     lines = result.stdout.splitlines()
     plan = []
@@ -106,4 +107,4 @@ if __name__ == "__main__":
     # test_ultrasonic()
     # test_brightness()
     test_pddl()
-    test_messaging()
+    # test_messaging()
