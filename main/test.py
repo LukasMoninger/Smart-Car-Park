@@ -1,6 +1,7 @@
 import time
 import grovepi
 import subprocess
+from notification import send_text_alert
 
 light_sensor = 0
 red_led = 2
@@ -85,7 +86,17 @@ def test_pddl():
     domain = "../pddl/domain_example.pddl"
     problem = "../pddl/problem_example.pddl"
     plan = generate_plan(domain, problem)
+
+    print("Generated Plan of length", len(plan))
+    print("Plan:", plan)
+
     execute_plan(plan)
+
+
+def test_messaging():
+    alert_str = "Test message from GrovePi"
+    send_text_alert(alert_str)
+    print("Message sent:", alert_str)
 
 
 if __name__ == "__main__":
@@ -95,3 +106,4 @@ if __name__ == "__main__":
     # test_ultrasonic()
     # test_brightness()
     test_pddl()
+    test_messaging()
