@@ -20,10 +20,7 @@ For the messaging system, this project uses Twilio.
 To install the Twilio Python library, run:
 
 ```pip install twilio```
+```pip install python-dotenv```
 
 Then go to [Twilio](https://www.twilio.com/) and create an account.
-Then set the environment variables `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` with your account credentials.
-You can do this by running:
-
-```TWILIO_ACCOUNT_SID=your_account_sid```
-```TWILIO_AUTH_TOKEN=your_auth_token```
+Then set the environment variables `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` int the .env file.
