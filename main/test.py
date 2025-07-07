@@ -3,7 +3,7 @@ import grovepi
 import subprocess
 import os
 
-from main.planner import start_planner
+from planner import start_planner
 from notification import send_text_notification
 
 light_sensor = 0

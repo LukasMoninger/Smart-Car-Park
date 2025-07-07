@@ -2,8 +2,8 @@ import subprocess
 import os
 import time
 
-from main.actuators import switch_light_green, switch_light_red, status_green_led, status_red_led
-from main.sensors import read_ultrasonic
+from actuators import switch_light_green, switch_light_red, status_green_led, status_red_led
+from sensors import read_ultrasonic
 
 
 def start_planner():
