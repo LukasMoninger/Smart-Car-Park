@@ -29,13 +29,13 @@ def generate_problem():
   (:init"""
 
     if status_green_led:
-        text += "\n    (on g1)"
+        text += "\n    (on_green g1)"
     else:
-        text += "\n    (not (on g1))"
+        text += "\n    (not (on_green g1))"
     if status_red_led:
-        text += "\n    (on r1)"
+        text += "\n    (on_red r1)"
     else:
-        text += "\n    (not (on r1))"
+        text += "\n    (not (on_red r1))"
 
     distance = read_ultrasonic()
     if distance < 20:
@@ -45,10 +45,17 @@ def generate_problem():
 
     text += """\n  )
   (:goal
-    (and
-      (on g1)
-      (not (on r1))
-    )
+    (and"""
+
+    if status_green_led:
+        text += "\n      (not (on_green g1))"
+    else:
+        text += "\n      (on_green g1)"
+    if status_red_led:
+        text += "\n      (not (on_red r1))"
+    else:
+        text += "\n      (on_red r1)"
+    text += """\n    )
   )
 )"""
     print(text)

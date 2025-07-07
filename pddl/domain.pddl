@@ -4,32 +4,32 @@
     green_light red_light ultrasonic
   )
   (:predicates
-    (on ?l - green_light)
-    (on ?l - red_light)
+    (on_green ?l - green_light)
+    (on_red ?l - red_light)
     (detected ?u - ultrasonic)
   )
   (:action switch_light_green
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic)
     :precondition (and
-      (on ?r)
-      (not (on ?g))
+      (on_red ?r)
+      (not (on_green ?g))
       (not (detected ?u))
     )
     :effect (and
-      (on ?g)
-      (not (on ?r))
+      (on_green ?g)
+      (not (on_red ?r))
     )
   )
   (:action switch_light_red
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic)
     :precondition (and
-      (on ?g)
-      (not (on ?r))
+      (on_green ?g)
+      (not (on_red ?r))
       (detected ?u)
     )
     :effect (and
-      (on ?r)
-      (not (on ?g))
+      (on_red ?r)
+      (not (on_green ?g))
     )
   )
 )

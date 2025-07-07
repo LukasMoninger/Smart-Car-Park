@@ -6,14 +6,14 @@
     u1 - ultrasonic
   )
   (:init
-    (on r1)
-    (not (on g1))
+    (on_red r1)
+    (not (on_green g1))
     (not (detected u1))
   )
   (:goal
     (and
-      (on g1)
-      (not (on r1))
+      (on_green g1)
+      (not (on_red r1))
     )
   )
 )
