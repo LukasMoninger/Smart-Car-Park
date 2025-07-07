@@ -17,7 +17,7 @@
     )
     :effect (and
       (on ?g)
-      (not (on ?r)
+      (not (on ?r))
     )
   )
   (:action switch_light_red
@@ -29,7 +29,7 @@
     )
     :effect (and
       (on ?r)
-      (not (on ?g)
+      (not (on ?g))
     )
   )
 )

@@ -43,7 +43,7 @@ def generate_problem():
     else:
         text += "\n    (not (detected u1))"
 
-    text += """)
+    text += """\n  )
   (:goal
     (and
       (on g1)
