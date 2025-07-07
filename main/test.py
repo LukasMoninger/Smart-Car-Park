@@ -4,8 +4,7 @@ import subprocess
 import os
 import re
 
-from main.notification import send_text_notification
-from notification import send_text_alert
+from notification import send_text_notification
 
 light_sensor = 0
 red_led = 2
