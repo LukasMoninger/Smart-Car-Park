@@ -1,3 +1,5 @@
+import grovepi
+
 def read_ultrasonic():
     ultrasonic = 4
     try:
