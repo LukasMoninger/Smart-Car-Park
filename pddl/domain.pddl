@@ -1,5 +1,5 @@
 (define (domain smart_car_park)
-  (:requirements :strips :typing)
+  (:requirements :strips :typing :negative-preconditions)
   (:types
     green_light red_light ultrasonic
   )
