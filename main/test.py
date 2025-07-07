@@ -2,7 +2,6 @@ import time
 import grovepi
 import subprocess
 import os
-import re
 
 from notification import send_text_notification
 
@@ -101,12 +100,9 @@ def test_generate_plan(domain, problem):
         for line in file:
             line = line.strip()
             print(line)
-            if not line or line.startswith(";"):
+            if not line:
                 continue
-            m = re.match(r'\s*\d+:\s*\(?(.+?)\)?\s*\[\d+]', line)
-            if m:
-                action = f"({m.group(1)})"
-                plan.append(action)
+            plan.append(line)
     return plan
 
 
