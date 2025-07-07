@@ -61,6 +61,9 @@ def generate_plan(domain, problem):
     #cmd = ["pyperplan", domain, problem]
     cmd = ["pyperplan", "-h", "debug", domain, problem]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+
+    print(result.stdout)
+
     lines = result.stdout.splitlines()
     plan = []
     for line in lines:
