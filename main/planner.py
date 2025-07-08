@@ -73,7 +73,12 @@ def generate_plan(domain, problem):
     if os.path.exists(solution_file):
         os.remove(solution_file)
 
-    subprocess.run(cmd, check=True)
+    result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+    output = result.stdout.strip()
+    if output.endswith("No solution could be found"):
+        print("No solution could be found")
+        return []
+
     start = time.time()
     while not os.path.exists(solution_file):
         if time.time() - start > timeout:
