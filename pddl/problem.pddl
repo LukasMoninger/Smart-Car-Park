@@ -13,8 +13,6 @@
   (:goal
     (and
       (on_green g1)
-      (not (off_green g1))
-      (not (on_red r1))
       (off_red r1)
     )
   )

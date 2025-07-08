@@ -48,17 +48,13 @@ def generate_problem():
     (and"""
 
     if status_green_led:
-        text += "\n      (not (on_green g1))"
-        text += "\n      (off_green g1))"
+        text += "\n      (off_green g1)"
     else:
         text += "\n      (on_green g1)"
-        text += "\n      (not (off_green g1)"
     if status_red_led:
-        text += "\n      (not (on_red r1))"
         text += "\n      (off_red r1)"
     else:
         text += "\n      (on_red r1)"
-        text += "\n      (not (off_red r1))"
     text += """\n    )
   )
 )"""

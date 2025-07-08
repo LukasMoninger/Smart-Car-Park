@@ -33,10 +33,10 @@
       (detected ?u)
     )
     :effect (and
-      (on_red ?r)
-      (not (off_red ?r))
       (not (on_green ?g))
       (off_green ?g)
+      (on_red ?r)
+      (not (off_red ?r))
     )
   )
 )
