@@ -1,3 +1,5 @@
+import grovepi
+
 green_led = 3
 red_led = 2
 
