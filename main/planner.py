@@ -5,6 +5,17 @@ import time
 from actuators import switch_light_green, switch_light_red, status_green_led, status_red_led
 from sensors import read_ultrasonic
 
+light_sensor = 0
+red_led = 2
+green_led = 3
+ultrasonic = 4
+
+
+def setup():
+    grovepi.pinMode(red_led, "OUTPUT")
+    grovepi.pinMode(green_led, "OUTPUT")
+    switch_light_green()
+
 
 def start_planner():
     interval = 2
@@ -104,3 +115,8 @@ def execute_plan(plan):
             switch_light_green()
         elif name == "switch_light_red":
             switch_light_red()
+
+
+if __name__ == "__main__":
+    setup()
+    start_planner()

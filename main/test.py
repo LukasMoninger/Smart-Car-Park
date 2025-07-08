@@ -3,7 +3,6 @@ import grovepi
 import subprocess
 import os
 
-from planner import start_planner
 from notification import send_text_notification
 
 light_sensor = 0
@@ -133,5 +132,3 @@ if __name__ == "__main__":
         test_messaging()
     if test_pddl_flag:
         test_pddl()
-
-    start_planner()
