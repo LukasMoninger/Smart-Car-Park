@@ -15,7 +15,11 @@ ultrasonic = 4
 def setup():
     grovepi.pinMode(red_led, "OUTPUT")
     grovepi.pinMode(green_led, "OUTPUT")
+    print("Green LED: " + str(status_green_led))
+    print("Red LED: " + str(status_red_led))
     switch_light_green()
+    print("Green LED: " + str(status_green_led))
+    print("Red LED: " + str(status_red_led))
 
 
 def start_planner():
@@ -50,7 +54,7 @@ def generate_problem():
         text += "\n    (off_red r1)"
 
     distance = read_ultrasonic()
-    if distance < 20:
+    if distance < 15:
         text += "\n    (detected u1)"
     else:
         text += "\n    (not_detected u1)"
