@@ -12,13 +12,7 @@ class Planner:
     def __init__(self):
         self.act_controller = Actuators()
         self.sen_controller = Sensors()
-        grovepi.pinMode(self.act_controller.green_led, "OUTPUT")
-        grovepi.pinMode(self.act_controller.red_led, "OUTPUT")
-        print("Green LED: " + str(self.act_controller.status_green_led))
-        print("Red LED: " + str(self.act_controller.status_red_led))
         self.act_controller.switch_light_green()
-        print("Green LED: " + str(self.act_controller.status_green_led))
-        print("Red LED: " + str(self.act_controller.status_red_led))
 
     def start_planner(self):
         interval = 2
@@ -38,6 +32,7 @@ class Planner:
         g1 - green_light
         r1 - red_light
         u1 - ultrasonic_entrance
+        l1 - light_sensor
       )
       (:init"""
 
@@ -55,6 +50,12 @@ class Planner:
             text += "\n    (detected u1)"
         else:
             text += "\n    (not_detected u1)"
+
+        brightness = self.sen_controller.read_brightness()
+        if brightness > 200:
+            text += "\n    (bright l1)"
+        else:
+            text += "\n    (dark l1)"
 
         text += """\n  )
       (:goal

@@ -1,15 +1,17 @@
 (define (domain smart_car_park)
   (:requirements :strips :typing)
   (:types
-    green_light red_light ultrasonic_entrance
+    green_light red_light ultrasonic_entrance light_sensor
   )
   (:predicates
-    (on_green ?l - green_light)
-    (on_red ?l - red_light)
-    (off_green ?l - green_light)
-    (off_red ?l - red_light)
+    (on_green ?g - green_light)
+    (on_red ?r - red_light)
+    (off_green ?g - green_light)
+    (off_red ?e - red_light)
     (detected ?u - ultrasonic_entrance)
     (not_detected ?u - ultrasonic_entrance)
+    (bright ?l - light_sensor)
+    (dark ?l - light_sensor)
   )
   (:action switch_light_green
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
