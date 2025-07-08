@@ -1,6 +1,7 @@
 import subprocess
 import os
 import time
+import grovepi
 
 from actuators import switch_light_green, switch_light_red, status_green_led, status_red_led
 from sensors import read_ultrasonic
