@@ -3,17 +3,19 @@
   (:objects
     g1 - green_light
     r1 - red_light
-    u1 - ultrasonic
+    u1 - ultrasonic_entrance
   )
   (:init
+    (off_green g1)
     (on_red r1)
-    (not (on_green g1))
-    (not (detected u1))
+    (not_detected u1)
   )
   (:goal
     (and
       (on_green g1)
+      (not (off_green g1))
       (not (on_red r1))
+      (off_red r1)
     )
   )
 )

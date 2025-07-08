@@ -24,24 +24,24 @@ def generate_problem():
   (:objects
     g1 - green_light
     r1 - red_light
-    u1 - ultrasonic
+    u1 - ultrasonic_entrance
   )
   (:init"""
 
     if status_green_led:
         text += "\n    (on_green g1)"
     else:
-        text += "\n    (not (on_green g1))"
+        text += "\n    (off_green g1)"
     if status_red_led:
         text += "\n    (on_red r1)"
     else:
-        text += "\n    (not (on_red r1))"
+        text += "\n    (off_red r1)"
 
     distance = read_ultrasonic()
     if distance < 20:
         text += "\n    (detected u1)"
     else:
-        text += "\n    (not (detected u1))"
+        text += "\n    (not_detected u1)"
 
     text += """\n  )
   (:goal
@@ -49,12 +49,16 @@ def generate_problem():
 
     if status_green_led:
         text += "\n      (not (on_green g1))"
+        text += "\n      (off_green g1))"
     else:
         text += "\n      (on_green g1)"
+        text += "\n      (not (off_green g1)"
     if status_red_led:
         text += "\n      (not (on_red r1))"
+        text += "\n      (off_red r1)"
     else:
         text += "\n      (on_red r1)"
+        text += "\n      (not (off_red r1))"
     text += """\n    )
   )
 )"""
