@@ -2,6 +2,10 @@ import time
 import grovepi
 import subprocess
 import os
+import json
+
+from datetime import datetime
+import paho.mqtt.client as mqtt
 
 from notification import send_text_notification
 
@@ -10,11 +14,17 @@ red_led = 2
 green_led = 3
 ultrasonic = 4
 
+# MQTT-Parameter
+MQTT_BROKER = "localhost"  # Oder IP deines Brokers
+MQTT_PORT = 1883
+MQTT_TOPIC = "esp1/sensor/#"  # Alle Sensor-Topics
+
 test_led_flag = False
 test_ultrasonic_flag = False
 test_brightness_flag = False
 test_messaging_flag = False
 test_pddl_flag = False
+test_mqtt_flag = True
 
 
 def setup():
@@ -118,6 +128,62 @@ def move(robot, src, dst):
     print(f"Robot {robot} moves from {src} to {dst}")
 
 
+def test_mqtt():
+    client = mqtt.Client("raspi-sensor-reader")
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    try:
+        client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
+    except Exception as e:
+        print(f"Fehler beim Verbinden mit Broker: {e}")
+        return
+
+    # Endlosschleife, um Nachrichten zu verarbeiten
+    client.loop_start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\nBeende…")
+    finally:
+        client.loop_stop()
+        client.disconnect()
+
+    # Callback: Verbindung erfolgreich
+
+
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print(f"[{datetime.now()}] Verbunden mit MQTT-Broker")
+        client.subscribe(MQTT_TOPIC)
+        print(f"[{datetime.now()}] Abonniere Topic '{MQTT_TOPIC}'")
+    else:
+        print(f"[{datetime.now()}] Verbindung fehlgeschlagen, Code {rc}")
+
+
+# Callback: Nachricht empfangen
+def on_message(client, userdata, msg):
+    try:
+        payload = msg.payload.decode('utf-8')
+        data = json.loads(payload)
+    except Exception as e:
+        print(f"[{datetime.now()}] Fehler beim Parsen der Nachricht: {e}")
+        print(f"  Topic: {msg.topic}  Payload: {msg.payload!r}")
+        return
+
+    # Je nach Topic unterscheiden
+    if msg.topic.endswith("co2"):
+        print(f"[{datetime.now()}] CO₂: {data.get('eCO2')} ppm  "
+              f"(T={data.get('T')}°C, RH={data.get('RH')}%)")
+    elif msg.topic.endswith("tvoc"):
+        print(f"[{datetime.now()}] TVOC: {data.get('TVOC')} ppb  "
+              f"(T={data.get('T')}°C, RH={data.get('RH')}%)")
+    else:
+        # Alle anderen Topics
+        print(f"[{datetime.now()}] {msg.topic}: {data}")
+
+
 if __name__ == "__main__":
     setup()
 
@@ -132,3 +198,5 @@ if __name__ == "__main__":
         test_messaging()
     if test_pddl_flag:
         test_pddl()
+    if test_mqtt_flag:
+        test_mqtt()

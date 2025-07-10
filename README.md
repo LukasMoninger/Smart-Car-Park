@@ -24,3 +24,17 @@ To install the Twilio Python library, run:
 
 Then go to [Twilio](https://www.twilio.com/) and create an account.
 Then set the environment variables `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` int the .env file.
+
+Install the mosquitto MQTT broker on the Raspberry Pi:
+
+```sudo apt install mosquitto```
+and enable it to start on boot:
+
+```sudo systemctl enable mosquitto```
+
+then add 
+
+listener 1883
+allow_anonymous true
+
+To the `/etc/mosquitto/mosquitto.conf` file.
