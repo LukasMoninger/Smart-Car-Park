@@ -129,7 +129,7 @@ def move(robot, src, dst):
 
 
 def test_mqtt():
-    client = mqtt.Client("raspi-sensor-reader")
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "raspi-sensor-reader")
     client.on_connect = on_connect
     client.on_message = on_message
 
