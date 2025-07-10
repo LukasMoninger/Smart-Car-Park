@@ -129,7 +129,7 @@ def move(robot, src, dst):
 
 
 def test_mqtt():
-    client = mqtt.Client("raspi-sensor-reader", callback_api_version=mqtt.CallbackAPIVersion.V1)
+    client = mqtt.Client("raspi-sensor-reader")
     client.on_connect = on_connect
     client.on_message = on_message
 
@@ -153,7 +153,7 @@ def test_mqtt():
     # Callback: Verbindung erfolgreich
 
 
-def on_connect(client, userdata, flags, rc):
+def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
         print(f"[{datetime.now()}] Verbunden mit MQTT-Broker")
         client.subscribe(MQTT_TOPIC)
