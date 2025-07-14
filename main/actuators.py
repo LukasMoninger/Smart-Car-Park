@@ -11,6 +11,8 @@ class Actuators:
 
         self.status_green_led = False
         self.status_red_led = False
+        self.status_ventilation = False
+        self.status_signpost_brightness = True
 
     def switch_light_green(self):
         grovepi.digitalWrite(self.red_led, 0)
@@ -25,9 +27,21 @@ class Actuators:
         self.status_red_led = True
 
     def activate_ventilation(self):
-        # Placeholder for ventilation activation logic
+        self.status_ventilation = True
         print("Ventilation activated")
 
     def deactivate_ventilation(self):
-        # Placeholder for ventilation deactivation logic
+        self.status_ventilation = False
         print("Ventilation deactivated")
+
+    def make_light_brighter(self):
+        self.status_signpost_brightness = True
+        print("Light made brighter")
+
+    def make_light_darker(self):
+        self.status_signpost_brightness = False
+        print("Light made darker")
+
+    def send_notification(self):
+        # Placeholder for notification logic
+        print(f"Notification sent")

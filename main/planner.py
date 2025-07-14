@@ -33,6 +33,9 @@ class Planner:
         r1 - red_light
         u1 - ultrasonic_entrance
         l1 - light_sensor
+        c1 - co2_sensor
+        v1 - ventilation
+        s1 - signpost
       )
       (:init"""
 
@@ -57,6 +60,11 @@ class Planner:
         else:
             text += "\n    (dark l1)"
 
+        if self.act_controller.status_signpost_brightness:
+            text += "\n    (signpost_bright s1)"
+        else:
+            text += "\n    (signpost_dark s1)"
+
         text += """\n  )
       (:goal
         (and"""
@@ -69,6 +77,10 @@ class Planner:
             text += "\n      (red_off r1)"
         else:
             text += "\n      (red_on r1)"
+        if self.sen_controller.read_brightness() > 200:
+            text += "\n      (signpost_bright s1)"
+        else:
+            text += "\n      (signpost_dark s1)"
         text += """\n    )
       )
     )"""
@@ -121,6 +133,10 @@ class Planner:
                 self.act_controller.activate_ventilation()
             elif name == "deactivate_ventilation":
                 self.act_controller.deactivate_ventilation()
+            elif name == "make_light_brighter":
+                self.act_controller.make_light_brighter()
+            elif name == "make_light_darker":
+                self.act_controller.make_light_darker()
 
 
 if __name__ == "__main__":

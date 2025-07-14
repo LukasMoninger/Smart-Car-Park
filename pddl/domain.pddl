@@ -1,17 +1,19 @@
 (define (domain smart_car_park)
   (:requirements :strips :typing)
   (:types
-    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation
+    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation signpost
   )
   (:predicates
     (green_on ?g - green_light)
     (red_on ?r - red_light)
     (green_off ?g - green_light)
-    (red_off ?e - red_light)
+    (red_off ?r - red_light)
     (detected ?u - ultrasonic_entrance)
     (not_detected ?u - ultrasonic_entrance)
     (bright ?l - light_sensor)
     (dark ?l - light_sensor)
+    (signpost_bright ?s - signpost)
+    (signpost_dark ?s - signpost)
     (co2_high ?c - co2_sensor)
     (co2_low ?c - co2_sensor)
     (ventilation_on ?v - ventilation)
@@ -68,19 +70,19 @@
     )
   )
   (:action make_light_brighter
-    :parameters (?l - light_sensor)
-    :precondition (dark ?l)
-    :effect (and
-        (bright ?l)
-        (not (dark ?l))
-        )
+    :parameters (?l - light_sensor ?s - signpost)
+    :precondition (and
+      (bright ?l)
+      (signpost_dark ?s)
     )
-    (:action make_light_darker
-        :parameters (?l - light_sensor)
-        :precondition (bright ?l)
-        :effect (and
-        (dark ?l)
-        (not (bright ?l))
-        )
+    :effect (signpost_bright ?l)
+  )
+  (:action make_light_darker
+    :parameters (?l - light_sensor ?s - signpost)
+    :precondition (and
+      (dark ?l)
+      (signpost_bright ?s)
     )
+    :effect (signpost_dark ?l)
+  )
 )

@@ -5,17 +5,22 @@
     r1 - red_light
     u1 - ultrasonic_entrance
     l1 - light_sensor
+    c1 - co2_sensor
+    v1 - ventilation
+    s1 - signpost
   )
   (:init
     (green_off g1)
     (red_on r1)
     (not_detected u1)
     (bright l1)
+    (signpost_bright s1)
   )
   (:goal
     (and
       (green_on g1)
       (red_off r1)
+      (signpost_bright s1)
     )
   )
 )
