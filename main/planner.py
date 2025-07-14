@@ -37,13 +37,13 @@ class Planner:
       (:init"""
 
         if self.act_controller.status_green_led:
-            text += "\n    (on_green g1)"
+            text += "\n    (green_on g1)"
         else:
-            text += "\n    (off_green g1)"
+            text += "\n    (green_off g1)"
         if self.act_controller.status_red_led:
-            text += "\n    (on_red r1)"
+            text += "\n    (red_on r1)"
         else:
-            text += "\n    (off_red r1)"
+            text += "\n    (red_off r1)"
 
         distance = self.sen_controller.read_ultrasonic()
         if distance < 15:
@@ -62,13 +62,13 @@ class Planner:
         (and"""
 
         if self.act_controller.status_green_led:
-            text += "\n      (off_green g1)"
+            text += "\n      (green_off g1)"
         else:
-            text += "\n      (on_green g1)"
+            text += "\n      (green_on g1)"
         if self.act_controller.status_red_led:
-            text += "\n      (off_red r1)"
+            text += "\n      (red_off r1)"
         else:
-            text += "\n      (on_red r1)"
+            text += "\n      (red_on r1)"
         text += """\n    )
       )
     )"""
@@ -117,6 +117,10 @@ class Planner:
                 self.act_controller.switch_light_green()
             elif name == "switch_light_red":
                 self.act_controller.switch_light_red()
+            elif name == "activate_ventilation":
+                self.act_controller.activate_ventilation()
+            elif name == "deactivate_ventilation":
+                self.act_controller.deactivate_ventilation()
 
 
 if __name__ == "__main__":

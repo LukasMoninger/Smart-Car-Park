@@ -1,44 +1,86 @@
 (define (domain smart_car_park)
   (:requirements :strips :typing)
   (:types
-    green_light red_light ultrasonic_entrance light_sensor
+    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation
   )
   (:predicates
-    (on_green ?g - green_light)
-    (on_red ?r - red_light)
-    (off_green ?g - green_light)
-    (off_red ?e - red_light)
+    (green_on ?g - green_light)
+    (red_on ?r - red_light)
+    (green_off ?g - green_light)
+    (red_off ?e - red_light)
     (detected ?u - ultrasonic_entrance)
     (not_detected ?u - ultrasonic_entrance)
     (bright ?l - light_sensor)
     (dark ?l - light_sensor)
+    (co2_high ?c - co2_sensor)
+    (co2_low ?c - co2_sensor)
+    (ventilation_on ?v - ventilation)
+    (ventilation_off ?v - ventilation)
   )
   (:action switch_light_green
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
     :precondition (and
-      (on_red ?r)
-      (off_green ?g)
+      (red_on ?r)
+      (green_off ?g)
       (not_detected ?u)
     )
     :effect (and
-      (on_green ?g)
-      (not (off_green ?g))
-      (not (on_red ?r))
-      (off_red ?r)
+      (green_on ?g)
+      (not (green_off ?g))
+      (not (red_on ?r))
+      (red_off ?r)
     )
   )
   (:action switch_light_red
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
     :precondition (and
-      (on_green ?g)
+      (green_on ?g)
       (off_red ?r)
       (detected ?u)
     )
     :effect (and
-      (not (on_green ?g))
-      (off_green ?g)
-      (on_red ?r)
-      (not (off_red ?r))
+      (not (green_on ?g))
+      (green_off ?g)
+      (red_on ?r)
+      (not (red_off ?r))
     )
   )
+  (:action activate_ventilation
+    :parameters (?v - ventilation ?c - co2_sensor)
+    :precondition (and
+      (co2_high ?c)
+      (ventilation_off ?v)
+    )
+    :effect (and
+      (ventilation_on ?v)
+      (not (ventilation_off ?v))
+    )
+  )
+  (:action deactivate_ventilation
+    :parameters (?v - ventilation ?c - co2_sensor)
+    :precondition (and
+      (co2_low ?c)
+      (ventilation_on ?v)
+    )
+    :effect (and
+      (ventilation_off ?v)
+      (not (ventilation_on ?v))
+    )
+  )
+  (:action make_light_brighter
+    :parameters (?l - light_sensor)
+    :precondition (dark ?l)
+    :effect (and
+        (bright ?l)
+        (not (dark ?l))
+        )
+    )
+    (:action make_light_darker
+        :parameters (?l - light_sensor)
+        :precondition (bright ?l)
+        :effect (and
+        (dark ?l)
+        (not (bright ?l))
+        )
+    )
 )

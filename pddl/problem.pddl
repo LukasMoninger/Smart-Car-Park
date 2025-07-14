@@ -7,15 +7,15 @@
     l1 - light_sensor
   )
   (:init
-    (off_green g1)
-    (on_red r1)
+    (green_off g1)
+    (red_on r1)
     (not_detected u1)
     (bright l1)
   )
   (:goal
     (and
-      (on_green g1)
-      (off_red r1)
+      (green_on g1)
+      (red_off r1)
     )
   )
 )
