@@ -1,5 +1,6 @@
 import subprocess
 import os
+import time
 import grovepi
 
 from actuators import *
