@@ -10,7 +10,7 @@ class Sensors:
 
         self.brightness_limit = 200
         self.distance_limit = 15
-        self.co2_limit = 700
+        self.co2_limit = 800
 
     def read_brightness(self):
         try:
@@ -27,7 +27,7 @@ class Sensors:
             print(f"I/O-Error: {e}")
 
     def read_co2(self):
-        c02 = self.mqtt_controller.read_co2()
+        c02 = self.mqtt_controller.co2_level
         print("Co2 Level:", c02)
         return c02
 
