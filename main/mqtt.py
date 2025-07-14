@@ -12,6 +12,7 @@ class MQTT:
         self.MQTT_TOPIC = "esp1/sensor/#"
 
         self.co2_level = 0
+        self.distance = 0
 
         self._client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "raspi-sensor-reader")
         self._client.on_connect = self.on_connect
@@ -34,7 +35,7 @@ class MQTT:
             self._client.disconnect()
             self._running = False
 
-    def on_connect(self, client, userdata, flags, rc, properties=None):
+    def on_connect(self, client, userdata, rc, properties=None):
         if rc == 0:
             print(f"[{datetime.now()}] Connected with MQTT-Broker")
             client.subscribe(self.MQTT_TOPIC)
@@ -53,8 +54,7 @@ class MQTT:
 
         if msg.topic.endswith("co2"):
             self.co2_level = data.get('eCO2')
-            print(f"[{datetime.now()}] CO2: {data.get('eCO2')} ppm  ")
-        elif msg.topic.endswith("tvoc"):
-            print(f"[{datetime.now()}] TVOC: {data.get('TVOC')} ppb  ")
+        elif msg.topic.endswith("distance"):
+            self.distance = data.get('distance')
         else:
             print(f"[{datetime.now()}] {msg.topic}: {data}")

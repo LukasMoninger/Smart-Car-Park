@@ -6,7 +6,6 @@ import json
 
 from datetime import datetime
 import paho.mqtt.client as mqtt
-
 from notification import send_text_notification
 
 light_sensor = 0
@@ -14,10 +13,9 @@ red_led = 2
 green_led = 3
 ultrasonic = 4
 
-# MQTT-Parameter
-MQTT_BROKER = "localhost"  # Oder IP deines Brokers
+MQTT_BROKER = "localhost"
 MQTT_PORT = 1883
-MQTT_TOPIC = "esp1/sensor/#"  # Alle Sensor-Topics
+MQTT_TOPIC = "esp1/sensor/#"
 
 test_led_flag = False
 test_ultrasonic_flag = False
@@ -136,51 +134,42 @@ def test_mqtt():
     try:
         client.connect(MQTT_BROKER, MQTT_PORT, keepalive=60)
     except Exception as e:
-        print(f"Fehler beim Verbinden mit Broker: {e}")
+        print(f"Error connecting to broker: {e}")
         return
 
-    # Endlosschleife, um Nachrichten zu verarbeiten
     client.loop_start()
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("\nBeende…")
+        print("\nTerminate")
     finally:
         client.loop_stop()
         client.disconnect()
 
-    # Callback: Verbindung erfolgreich
-
 
 def on_connect(client, userdata, flags, rc, properties=None):
     if rc == 0:
-        print(f"[{datetime.now()}] Verbunden mit MQTT-Broker")
+        print(f"[{datetime.now()}] Connected with MQTT-Broker")
         client.subscribe(MQTT_TOPIC)
-        print(f"[{datetime.now()}] Abonniere Topic '{MQTT_TOPIC}'")
+        print(f"[{datetime.now()}] Subscribe to topic '{MQTT_TOPIC}'")
     else:
-        print(f"[{datetime.now()}] Verbindung fehlgeschlagen, Code {rc}")
+        print(f"[{datetime.now()}] Connection failed, code {rc}")
 
 
-# Callback: Nachricht empfangen
 def on_message(client, userdata, msg):
     try:
         payload = msg.payload.decode('utf-8')
         data = json.loads(payload)
     except Exception as e:
-        print(f"[{datetime.now()}] Fehler beim Parsen der Nachricht: {e}")
+        print(f"[{datetime.now()}] Error parsing message: {e}")
         print(f"  Topic: {msg.topic}  Payload: {msg.payload!r}")
         return
 
-    # Je nach Topic unterscheiden
     if msg.topic.endswith("co2"):
         print(f"[{datetime.now()}] CO₂: {data.get('eCO2')} ppm  "
               f"(T={data.get('T')}°C, RH={data.get('RH')}%)")
-    elif msg.topic.endswith("tvoc"):
-        print(f"[{datetime.now()}] TVOC: {data.get('TVOC')} ppb  "
-              f"(T={data.get('T')}°C, RH={data.get('RH')}%)")
     else:
-        # Alle anderen Topics
         print(f"[{datetime.now()}] {msg.topic}: {data}")
 
 

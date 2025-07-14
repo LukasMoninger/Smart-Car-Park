@@ -154,6 +154,8 @@ class Planner:
                 self.act_controller.make_light_brighter()
             elif name == "make_light_darker":
                 self.act_controller.make_light_darker()
+            elif name == "send_notification":
+                self.act_controller.send_notification()
 
 
 if __name__ == "__main__":

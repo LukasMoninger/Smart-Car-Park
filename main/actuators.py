@@ -1,4 +1,5 @@
 import grovepi
+import notification
 
 
 class Actuators:
@@ -13,6 +14,7 @@ class Actuators:
         self.status_red_led = False
         self.status_ventilation = False
         self.status_signpost_brightness = True
+        self.notification_sent = False
 
     def switch_light_green(self):
         grovepi.digitalWrite(self.red_led, 0)
@@ -43,5 +45,7 @@ class Actuators:
         print("Light made darker")
 
     def send_notification(self):
-        # Placeholder for notification logic
+        text = "Parking time exceeded. Please move your car."
+        notification.send_text_notification(text)
+        self.notification_sent = True
         print(f"Notification sent")

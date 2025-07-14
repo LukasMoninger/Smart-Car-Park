@@ -148,7 +148,7 @@ void loop() {
   Serial.print("Publish: ");
   Serial.println(payload);
 
-  if(co2 > 700){
+  if(co2 > 850){
     activate_ventilation();
   }else{
     deactivate_ventilation();
