@@ -26,18 +26,18 @@ class Planner:
             time.sleep(interval)
 
     def generate_problem(self):
-        text = "(define (problem smart_car_park_problem)"
-        text += "(:domain smart_car_park)"
-        text += """(:objects
-        g1 - green_light
-        r1 - red_light
-        u1 - ultrasonic_entrance
-        l1 - light_sensor
-        c1 - co2_sensor
-        v1 - ventilation
-        s1 - signpost
-      )
-      (:init"""
+        text = """(define (problem smart_car_park_problem)
+  (:domain smart_car_park)
+  (:objects
+    g1 - green_light
+    r1 - red_light
+    u1 - ultrasonic_entrance
+    l1 - light_sensor
+    c1 - co2_sensor
+    v1 - ventilation
+    s1 - signpost
+  )
+  (:init"""
 
         if self.act_controller.status_green_led:
             text += "\n    (green_on g1)"
@@ -65,25 +65,23 @@ class Planner:
         else:
             text += "\n    (signpost_dark s1)"
 
-        text += """\n  )
-      (:goal
-        (and"""
+        text += """\n)
+        (:goal
+         ( and """
 
-        if self.act_controller.status_green_led:
+        if self.act_controller.status_green_led and self.sen_controller.read_ultrasonic() < 15:
             text += "\n      (green_off g1)"
+            text += "\n      (red_on r1)"
         else:
             text += "\n      (green_on g1)"
-        if self.act_controller.status_red_led:
             text += "\n      (red_off r1)"
-        else:
-            text += "\n      (red_on r1)"
         if self.sen_controller.read_brightness() > 200:
             text += "\n      (signpost_bright s1)"
         else:
             text += "\n      (signpost_dark s1)"
-        text += """\n    )
-      )
-    )"""
+        text += """\n)
+        )
+        )"""
         print(text)
         problem_file = "../pddl/smart_car_park_problem.pddl"
         with open(problem_file, "w") as file:

@@ -14,7 +14,7 @@
     (red_on r1)
     (not_detected u1)
     (bright l1)
-    (signpost_bright s1)
+    (signpost_dark s1)
   )
   (:goal
     (and
