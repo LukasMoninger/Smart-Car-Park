@@ -37,7 +37,7 @@
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
     :precondition (and
       (green_on ?g)
-      (off_red ?r)
+      (red_off ?r)
       (detected ?u)
     )
     :effect (and

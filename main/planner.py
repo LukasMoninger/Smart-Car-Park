@@ -26,9 +26,9 @@ class Planner:
             time.sleep(interval)
 
     def generate_problem(self):
-        text = """(define (problem smart_car_park_problem)
-      (:domain smart_car_park)
-      (:objects
+        text = "(define (problem smart_car_park_problem)"
+        text += "(:domain smart_car_park)"
+        text += """(:objects
         g1 - green_light
         r1 - red_light
         u1 - ultrasonic_entrance
