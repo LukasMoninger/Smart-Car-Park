@@ -65,10 +65,9 @@ class Planner:
         else:
             text += "\n    (signpost_dark s1)"
 
-        text += """\n)
-        (:goal
-         ( and """
-
+        text += """\n  )
+  (:goal
+    (and """
         if self.act_controller.status_green_led and self.sen_controller.read_ultrasonic() < 15:
             text += "\n      (green_off g1)"
             text += "\n      (red_on r1)"
@@ -80,8 +79,8 @@ class Planner:
         else:
             text += "\n      (signpost_dark s1)"
         text += """\n)
-        )
-        )"""
+  )
+)"""
         print(text)
         problem_file = "../pddl/smart_car_park_problem.pddl"
         with open(problem_file, "w") as file:

@@ -13,14 +13,14 @@
     (green_off g1)
     (red_on r1)
     (not_detected u1)
-    (bright l1)
-    (signpost_dark s1)
+    (dark l1)
+    (signpost_bright s1)
   )
   (:goal
     (and
       (green_on g1)
       (red_off r1)
-      (signpost_bright s1)
+      (signpost_dark s1)
     )
   )
 )
