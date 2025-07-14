@@ -14,6 +14,7 @@ class Planner:
         self.mqtt_controller = MQTT()
         self.sen_controller = Sensors(self.mqtt_controller)
         self.act_controller.switch_light_green()
+        self.mqtt_controller.start()
 
     def start_planner(self):
         interval = 2
