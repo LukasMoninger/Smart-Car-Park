@@ -78,7 +78,7 @@ class Planner:
             text += "\n      (signpost_bright s1)"
         else:
             text += "\n      (signpost_dark s1)"
-        text += """\n)
+        text += """\n    )
   )
 )"""
         print(text)

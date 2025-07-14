@@ -75,7 +75,7 @@
       (bright ?l)
       (signpost_dark ?s)
     )
-    :effect (signpost_bright ?l)
+    :effect (signpost_bright ?s)
   )
   (:action make_light_darker
     :parameters (?l - light_sensor ?s - signpost)
@@ -83,6 +83,6 @@
       (dark ?l)
       (signpost_bright ?s)
     )
-    :effect (signpost_dark ?l)
+    :effect (signpost_dark ?s)
   )
 )
