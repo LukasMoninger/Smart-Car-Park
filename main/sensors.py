@@ -3,9 +3,14 @@ import grovepi
 
 class Sensors:
 
-    def __init__(self):
+    def __init__(self, mqtt_controller):
+        self.mqtt_controller = mqtt_controller
         self.brightness_sensor = 0
         self.ultrasonic = 4
+
+        self.brightness_limit = 200
+        self.distance_limit = 15
+        self.co2_limit = 700
 
     def read_brightness(self):
         try:
@@ -22,11 +27,9 @@ class Sensors:
             print(f"I/O-Error: {e}")
 
     def read_co2(self):
-        try:
-            c02 = -1
-            return c02
-        except IOError as e:
-            print(f"I/O-Error: {e}")
+        c02 = self.mqtt_controller.read_co2()
+        print("Co2 Level:", c02)
+        return c02
 
     def read_parking_occupancy(self):
         print("Parking Occupancy")

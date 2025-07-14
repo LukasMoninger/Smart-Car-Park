@@ -15,6 +15,8 @@
     (not_detected u1)
     (dark l1)
     (signpost_bright s1)
+    (ventilation_off v1)
+    (co2_low c1)
   )
   (:goal
     (and

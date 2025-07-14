@@ -1,17 +1,18 @@
 import subprocess
 import os
-import time
 import grovepi
 
 from actuators import *
 from sensors import *
+from mqtt import *
 
 
 class Planner:
 
     def __init__(self):
         self.act_controller = Actuators()
-        self.sen_controller = Sensors()
+        self.mqtt_controller = MQTT()
+        self.sen_controller = Sensors(self.mqtt_controller)
         self.act_controller.switch_light_green()
 
     def start_planner(self):
@@ -49,13 +50,13 @@ class Planner:
             text += "\n    (red_off r1)"
 
         distance = self.sen_controller.read_ultrasonic()
-        if distance < 15:
+        if distance < self.sen_controller.distance_limit:
             text += "\n    (detected u1)"
         else:
             text += "\n    (not_detected u1)"
 
         brightness = self.sen_controller.read_brightness()
-        if brightness > 200:
+        if brightness > self.sen_controller.brightness_limit:
             text += "\n    (bright l1)"
         else:
             text += "\n    (dark l1)"
@@ -65,19 +66,36 @@ class Planner:
         else:
             text += "\n    (signpost_dark s1)"
 
+        if self.act_controller.status_ventilation:
+            text += "\n    (ventilation_on v1)"
+        else:
+            text += "\n    (ventilation_off v1)"
+
+        if self.sen_controller.read_co2() > self.sen_controller.co2_limit:
+            text += "\n    (co2_high c1)"
+        else:
+            text += "\n    (co2_low c1)"
+
         text += """\n  )
   (:goal
     (and """
-        if self.act_controller.status_green_led and self.sen_controller.read_ultrasonic() < 15:
+        if self.act_controller.status_green_led and distance < self.sen_controller.distance_limit:
             text += "\n      (green_off g1)"
             text += "\n      (red_on r1)"
         else:
             text += "\n      (green_on g1)"
             text += "\n      (red_off r1)"
-        if self.sen_controller.read_brightness() > 200:
+
+        if self.sen_controller.read_brightness() > self.sen_controller.brightness_limit:
             text += "\n      (signpost_bright s1)"
         else:
             text += "\n      (signpost_dark s1)"
+
+        if self.sen_controller.read_co2() > self.sen_controller.co2_limit:
+            text += "\n      (ventilation_on v1)"
+        else:
+            text += "\n      (ventilation_off v1)"
+
         text += """\n    )
   )
 )"""
