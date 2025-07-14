@@ -1,8 +1,7 @@
 import json
-import time
-import threading
-import paho.mqtt.client as mqtt
 from datetime import datetime
+
+import paho.mqtt.client as mqtt
 
 
 class MQTT:
@@ -12,7 +11,7 @@ class MQTT:
         self.MQTT_PORT = 1883
         self.MQTT_TOPIC = "esp1/sensor/#"
 
-        self.co2_level = None
+        self.co2_level = 0
 
         self._client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, "raspi-sensor-reader")
         self._client.on_connect = self.on_connect
