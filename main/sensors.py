@@ -19,6 +19,13 @@ class Sensors:
         except IOError as e:
             print(f"I/O-Error: {e}")
 
+    def get_status_brightness(self):
+        brightness = self.read_brightness()
+        if brightness > self.brightness_limit:
+            return True
+        else:
+            return False
+
     def read_ultrasonic(self):
         try:
             distance = grovepi.ultrasonicRead(self.ultrasonic)
@@ -30,6 +37,13 @@ class Sensors:
         c02 = self.mqtt_controller.co2_level
         print(f"CO2 Level: {c02}")
         return c02
+
+    def get_status_co2(self):
+        co2 = self.read_co2()
+        if co2 > self.co2_limit:
+            return True
+        else:
+            return False
 
     def read_button(self):
         print("Button Pressed")

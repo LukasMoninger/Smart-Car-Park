@@ -21,14 +21,14 @@ class Planner:
         self.status_green_led_last = self.status_green_led
         self.status_red_led = self.act_controller.status_red_led
         self.status_red_led_last = self.status_red_led
-        self.brightness = self.sen_controller.read_brightness()
-        self.brightness_last = self.brightness
-        self.brightness_signpost = self.act_controller.status_signpost_brightness
-        self.brightness_signpost_last = self.brightness_signpost
+        self.status_brightness = self.sen_controller.get_status_brightness()
+        self.status_brightness_last = self.status_brightness
+        self.status_brightness_signpost = self.act_controller.status_brightness_signpost
+        self.status_brightness_signpost_last = self.status_brightness_signpost
         self.status_ventilation = self.act_controller.status_ventilation
         self.status_ventilation_last = self.status_ventilation
-        self.co2 = self.sen_controller.read_co2()
-        self.co2_last = self.co2
+        self.status_co2 = self.sen_controller.get_status_co2()
+        self.status_co2_last = self.status_co2
 
         self.status_button = self.sen_controller.read_button()
         self.status_button_last = self.status_button
@@ -59,16 +59,16 @@ class Planner:
             self.status_red_led_last = self.status_red_led
             print("Status red changed")
 
-        self.brightness = self.sen_controller.read_brightness()
-        if self.brightness != self.brightness_last:
+        self.status_brightness = self.sen_controller.get_status_brightness()
+        if self.status_brightness != self.status_brightness_last:
             change = True
-            self.brightness_last = self.brightness
+            self.status_brightness_last = self.status_brightness
             print("Brightness changed")
 
-        self.brightness_signpost = self.act_controller.status_signpost_brightness
-        if self.brightness_signpost != self.brightness_signpost_last:
+        self.status_brightness_signpost = self.act_controller.status_brightness_signpost
+        if self.status_brightness_signpost != self.status_brightness_signpost_last:
             change = True
-            self.brightness_signpost_last = self.brightness_signpost
+            self.status_brightness_signpost_last = self.status_brightness_signpost
             print("Signpost brightness changed")
 
         self.status_ventilation = self.act_controller.status_ventilation
@@ -77,13 +77,13 @@ class Planner:
             self.status_ventilation_last = self.status_ventilation
             print("Ventilation status changed")
 
-        self.co2 = self.sen_controller.read_co2()
-        if self.co2 != self.co2_last:
+        self.status_co2 = self.sen_controller.read_co2()
+        if self.status_co2 != self.status_co2_last:
             change = True
-            self.co2_last = self.co2
+            self.status_co2_last = self.status_co2
             print("CO2 level changed")
 
-        self.status_button = self.sen_controller.read_button()#
+        self.status_button = self.sen_controller.read_button()  #
         if self.status_button != self.status_button_last:
             change = True
             self.status_button_last = self.status_button
@@ -123,12 +123,12 @@ class Planner:
         else:
             text += "\n    (not_detected u1)"
 
-        if self.brightness > self.sen_controller.brightness_limit:
+        if self.status_brightness:
             text += "\n    (bright l1)"
         else:
             text += "\n    (dark l1)"
 
-        if self.brightness_signpost:
+        if self.status_brightness_signpost:
             text += "\n    (signpost_bright s1)"
         else:
             text += "\n    (signpost_dark s1)"
@@ -138,7 +138,7 @@ class Planner:
         else:
             text += "\n    (ventilation_off v1)"
 
-        if self.co2 > self.sen_controller.co2_limit:
+        if self.status_co2:
             text += "\n    (co2_high c1)"
         else:
             text += "\n    (co2_low c1)"
@@ -158,12 +158,12 @@ class Planner:
             text += "\n      (green_on g1)"
             text += "\n      (red_off r1)"
 
-        if self.brightness > self.sen_controller.brightness_limit:
+        if self.status_brightness:
             text += "\n      (signpost_bright s1)"
         else:
             text += "\n      (signpost_dark s1)"
 
-        if self.co2 > self.sen_controller.co2_limit:
+        if self.status_co2:
             text += "\n      (ventilation_on v1)"
         else:
             text += "\n      (ventilation_off v1)"

@@ -13,7 +13,7 @@ class Actuators:
         self.status_green_led = False
         self.status_red_led = False
         self.status_ventilation = False
-        self.status_signpost_brightness = True
+        self.status_brightness_signpost = True
         self.notification_sent = False
 
     def switch_light_green(self):
@@ -37,11 +37,11 @@ class Actuators:
         print("Ventilation deactivated")
 
     def make_light_brighter(self):
-        self.status_signpost_brightness = True
+        self.status_brightness_signpost = True
         print("Light made brighter")
 
     def make_light_darker(self):
-        self.status_signpost_brightness = False
+        self.status_brightness_signpost = False
         print("Light made darker")
 
     def send_notification(self):
