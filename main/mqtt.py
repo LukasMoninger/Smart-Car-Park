@@ -35,7 +35,7 @@ class MQTT:
             self._client.disconnect()
             self._running = False
 
-    def on_connect(self, client, userdata, rc, properties=None):
+    def on_connect(self, client, userdata, flags, rc, properties=None):
         if rc == 0:
             print(f"[{datetime.now()}] Connected with MQTT-Broker")
             client.subscribe(self.MQTT_TOPIC)
