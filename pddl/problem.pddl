@@ -8,6 +8,9 @@
     c1 - co2_sensor
     v1 - ventilation
     s1 - signpost
+    p1 - parking_space
+    p2 - parking_space
+    p3 - parking_space
   )
   (:init
     (green_off g1)
@@ -17,6 +20,7 @@
     (signpost_bright s1)
     (ventilation_off v1)
     (co2_low c1)
+    (parking_free p1)
   )
   (:goal
     (and

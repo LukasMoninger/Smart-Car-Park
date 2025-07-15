@@ -31,5 +31,14 @@ class Sensors:
         print(f"CO2 Level: {c02}")
         return c02
 
-    def read_parking_occupancy(self):
-        print("Parking Occupancy")
+    def read_button(self):
+        print("Button Pressed")
+
+    def get_parking_occupancy(self):
+        distance = self.mqtt_controller.distance
+        if distance < 5:
+            print("Parking space occupied")
+            return True
+        else:
+            print("Parking space free")
+            return False

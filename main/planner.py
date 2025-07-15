@@ -17,16 +17,72 @@ class Planner:
         self.act_controller.switch_light_green()
         self.mqtt_controller.start()
 
+        self.status_green_led = self.act_controller.status_green_led
+        self.status_green_led_last = self.status_green_led
+        self.status_red_led = self.act_controller.status_red_led
+        self.status_red_led_last = self.status_red_led
+        self.brightness = self.sen_controller.read_brightness()
+        self.brightness_last = self.brightness
+        self.brightness_signpost = self.act_controller.status_signpost_brightness
+        self.brightness_signpost_last = self.brightness_signpost
+        self.status_ventilation = self.act_controller.status_ventilation
+        self.status_ventilation_last = self.status_ventilation
+        self.co2 = self.sen_controller.read_co2()
+        self.co2_last = self.co2
+
+        self.status_button = self.sen_controller.read_button()
+        self.status_button_last = self.status_button
+
     def start_planner(self):
         interval = 4
         while True:
-            domain = "../pddl/domain.pddl"
-            problem = self.generate_problem()
-            plan = self.generate_plan(domain, problem)
-            print("Generated Plan of length ", len(plan))
-            print("Plan:", plan)
-            self.execute_plan(plan)
+            if self.state_change_detected():
+                domain = "../pddl/domain.pddl"
+                problem = self.generate_problem()
+                plan = self.generate_plan(domain, problem)
+                print("Generated Plan of length ", len(plan))
+                print("Plan:", plan)
+                self.execute_plan(plan)
             time.sleep(interval)
+
+    def state_change_detected(self):
+        change = False
+        self.status_green_led = self.act_controller.status_green_led
+        if self.status_green_led != self.status_green_led_last:
+            change = True
+            self.status_green_led_last = self.status_green_led
+
+        self.status_red_led = self.act_controller.status_red_led
+        if self.status_red_led != self.status_red_led_last:
+            change = True
+            self.status_red_led_last = self.status_red_led
+
+        self.brightness = self.sen_controller.read_brightness()
+        if self.brightness != self.brightness_last:
+            change = True
+            self.brightness_last = self.brightness
+
+        self.brightness_signpost = self.act_controller.status_signpost_brightness
+        if self.brightness_signpost != self.brightness_signpost_last:
+            change = True
+            self.brightness_signpost_last = self.brightness_signpost
+
+        self.status_ventilation = self.act_controller.status_ventilation
+        if self.status_ventilation != self.status_ventilation_last:
+            change = True
+            self.status_ventilation_last = self.status_ventilation
+
+        self.co2 = self.sen_controller.read_co2()
+        if self.co2 != self.co2_last:
+            change = True
+            self.co2_last = self.co2
+
+        self.status_button = self.sen_controller.read_button()#
+        if self.status_button != self.status_button_last:
+            change = True
+            self.status_button_last = self.status_button
+
+        return change
 
     def generate_problem(self):
         text = """(define (problem smart_car_park_problem)
@@ -39,14 +95,17 @@ class Planner:
     c1 - co2_sensor
     v1 - ventilation
     s1 - signpost
+    p1 - parking_space
+    p2 - parking_space
+    p3 - parking_space
   )
   (:init"""
 
-        if self.act_controller.status_green_led:
+        if self.status_green_led:
             text += "\n    (green_on g1)"
         else:
             text += "\n    (green_off g1)"
-        if self.act_controller.status_red_led:
+        if self.status_red_led:
             text += "\n    (red_on r1)"
         else:
             text += "\n    (red_off r1)"
@@ -57,43 +116,47 @@ class Planner:
         else:
             text += "\n    (not_detected u1)"
 
-        brightness = self.sen_controller.read_brightness()
-        if brightness > self.sen_controller.brightness_limit:
+        if self.brightness > self.sen_controller.brightness_limit:
             text += "\n    (bright l1)"
         else:
             text += "\n    (dark l1)"
 
-        if self.act_controller.status_signpost_brightness:
+        if self.brightness_signpost:
             text += "\n    (signpost_bright s1)"
         else:
             text += "\n    (signpost_dark s1)"
 
-        if self.act_controller.status_ventilation:
+        if self.status_ventilation:
             text += "\n    (ventilation_on v1)"
         else:
             text += "\n    (ventilation_off v1)"
 
-        if self.sen_controller.read_co2() > self.sen_controller.co2_limit:
+        if self.co2() > self.sen_controller.co2_limit:
             text += "\n    (co2_high c1)"
         else:
             text += "\n    (co2_low c1)"
 
+        if self.sen_controller.get_parking_occupancy():
+            text += "\n    (parking_occupied p1)"
+        else:
+            text += "\n    (parking_free p1)"
+
         text += """\n  )
   (:goal
     (and """
-        if self.act_controller.status_green_led and distance < self.sen_controller.distance_limit:
+        if self.status_green_led and distance < self.sen_controller.distance_limit:
             text += "\n      (green_off g1)"
             text += "\n      (red_on r1)"
         else:
             text += "\n      (green_on g1)"
             text += "\n      (red_off r1)"
 
-        if self.sen_controller.read_brightness() > self.sen_controller.brightness_limit:
+        if self.brightness > self.sen_controller.brightness_limit:
             text += "\n      (signpost_bright s1)"
         else:
             text += "\n      (signpost_dark s1)"
 
-        if self.sen_controller.read_co2() > self.sen_controller.co2_limit:
+        if self.co2() > self.sen_controller.co2_limit:
             text += "\n      (ventilation_on v1)"
         else:
             text += "\n      (ventilation_off v1)"

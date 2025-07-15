@@ -23,7 +23,7 @@ const char* mqtt_server = "192.168.178.69";
 const int mqtt_port = 1883;
 const char* mqtt_user = "";
 const char* mqtt_password = "";
-const char* topic_ultrasonic = ESP_NAME "/sensor/ultrasonic";
+const char* topic_distance = ESP_NAME "/sensor/distance";
 const char* topic_co2 = ESP_NAME "/sensor/co2";
 
 
@@ -138,15 +138,23 @@ void loop() {
   }
   mqttClient.loop();
 
-  char payload[64];
-  snprintf(payload, sizeof(payload),
+  char payload_co2[64];
+  snprintf(payload_co2, sizeof(payload_co2),
            "{\"eCO2\":%u}",
            co2);
 
-  mqttClient.publish(topic_co2,  payload);
-
+  mqttClient.publish(topic_co2,  payload_co2);
   Serial.print("Publish: ");
-  Serial.println(payload);
+  Serial.println(payload_co2);
+
+  char payload_dist[64];
+  snprintf(payload_dist, sizeof(payload_dist),
+           "{\"distance\":%u}",
+           distance);
+
+  mqttClient.publish(topic_distance,  payload_dist);
+  Serial.print("Publish: ");
+  Serial.println(payload_dist);
 
   if(co2 > 850){
     activate_ventilation();
