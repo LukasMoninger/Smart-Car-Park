@@ -52,10 +52,8 @@ class Sensors:
         try:
             state = grovepi.digitalRead(self.button)
             if state == 1:
-                print("Button is pressed")
                 return True
             else:
-                print("Button is not pressed")
                 return False
         except IOError:
             print("I/O-Error while reading button state")
