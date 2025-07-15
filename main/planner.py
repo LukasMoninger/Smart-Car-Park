@@ -131,7 +131,7 @@ class Planner:
         else:
             text += "\n    (ventilation_off v1)"
 
-        if self.co2() > self.sen_controller.co2_limit:
+        if self.co2 > self.sen_controller.co2_limit:
             text += "\n    (co2_high c1)"
         else:
             text += "\n    (co2_low c1)"
@@ -156,7 +156,7 @@ class Planner:
         else:
             text += "\n      (signpost_dark s1)"
 
-        if self.co2() > self.sen_controller.co2_limit:
+        if self.co2 > self.sen_controller.co2_limit:
             text += "\n      (ventilation_on v1)"
         else:
             text += "\n      (ventilation_off v1)"
