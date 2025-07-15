@@ -1,7 +1,7 @@
 (define (domain smart_car_park)
   (:requirements :strips :typing)
   (:types
-    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation signpost parking_space
+    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation signpost parking_space button
   )
   (:predicates
     (green_on ?g - green_light)
@@ -22,6 +22,8 @@
     (ventilation_off ?v - ventilation)
     (parking_occupied ?p - parking_space)
     (parking_free ?p - parking_space)
+    (button_pressed ?b - button)
+    (button_not_pressed ?b - button)
   )
   (:action switch_light_green
     :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)

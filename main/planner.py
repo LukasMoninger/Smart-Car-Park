@@ -29,7 +29,7 @@ class Planner:
         self.status_ventilation_last = self.status_ventilation
         self.status_co2 = self.sen_controller.get_status_co2()
         self.status_co2_last = self.status_co2
-        self.status_button = self.sen_controller.read_button()
+        self.status_button = self.sen_controller.get_status_button()
         self.status_button_last = self.status_button
 
     def start_planner(self):
@@ -82,7 +82,7 @@ class Planner:
             self.status_co2_last = self.status_co2
             print("CO2 level changed")
 
-        self.status_button = self.sen_controller.read_button()
+        self.status_button = self.sen_controller.get_status_button()
         if self.status_button != self.status_button_last:
             change = True
             self.status_button_last = self.status_button

@@ -7,6 +7,9 @@ class Sensors:
         self.mqtt_controller = mqtt_controller
         self.brightness_sensor = 0
         self.ultrasonic = 4
+        self.button = 5
+
+        grovepi.pinMode(self.button, "INPUT")
 
         self.brightness_limit = 200
         self.distance_limit = 15
@@ -45,8 +48,17 @@ class Sensors:
         else:
             return False
 
-    def read_button(self):
-        print("Button Pressed")
+    def get_status_button(self):
+        try:
+            state = grovepi.digitalRead(self.button)
+            if state == 0:
+                print("Button is pressed")
+                return True
+            else:
+                print("Button is not pressed")
+                return False
+        except IOError:
+            print("I/O-Error while reading button state")
 
     def get_parking_occupancy(self):
         distance = self.mqtt_controller.distance
