@@ -51,36 +51,43 @@ class Planner:
         if self.status_green_led != self.status_green_led_last:
             change = True
             self.status_green_led_last = self.status_green_led
+            print("Status green changed")
 
         self.status_red_led = self.act_controller.status_red_led
         if self.status_red_led != self.status_red_led_last:
             change = True
             self.status_red_led_last = self.status_red_led
+            print("Status red changed")
 
         self.brightness = self.sen_controller.read_brightness()
         if self.brightness != self.brightness_last:
             change = True
             self.brightness_last = self.brightness
+            print("Brightness changed")
 
         self.brightness_signpost = self.act_controller.status_signpost_brightness
         if self.brightness_signpost != self.brightness_signpost_last:
             change = True
             self.brightness_signpost_last = self.brightness_signpost
+            print("Signpost brightness changed")
 
         self.status_ventilation = self.act_controller.status_ventilation
         if self.status_ventilation != self.status_ventilation_last:
             change = True
             self.status_ventilation_last = self.status_ventilation
+            print("Ventilation status changed")
 
         self.co2 = self.sen_controller.read_co2()
         if self.co2 != self.co2_last:
             change = True
             self.co2_last = self.co2
+            print("CO2 level changed")
 
         self.status_button = self.sen_controller.read_button()#
         if self.status_button != self.status_button_last:
             change = True
             self.status_button_last = self.status_button
+            print("Button status changed")
 
         return change
 
