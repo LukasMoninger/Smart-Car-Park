@@ -28,6 +28,7 @@ class Sensors:
 
     def read_co2(self):
         c02 = self.mqtt_controller.co2_level
+        print(f"CO2 Level: {c02}")
         return c02
 
     def read_parking_occupancy(self):

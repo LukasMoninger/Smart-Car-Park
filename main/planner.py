@@ -18,7 +18,7 @@ class Planner:
         self.mqtt_controller.start()
 
     def start_planner(self):
-        interval = 2
+        interval = 4
         while True:
             domain = "../pddl/domain.pddl"
             problem = self.generate_problem()
