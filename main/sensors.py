@@ -51,7 +51,7 @@ class Sensors:
     def get_status_button(self):
         try:
             state = grovepi.digitalRead(self.button)
-            if state == 0:
+            if state == 1:
                 print("Button is pressed")
                 return True
             else:
