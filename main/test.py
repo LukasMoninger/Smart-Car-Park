@@ -189,9 +189,10 @@ def test_led_strip():
     )
 
     for i in range(NUM_PIXELS):
-        pixels[i] = (255,0,0)
+        pixels[i] = (255, 0, 0)
         pixels.show()
         time.sleep(0.05)
+
 
 if __name__ == "__main__":
     setup()
