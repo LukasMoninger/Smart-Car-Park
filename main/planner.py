@@ -14,7 +14,6 @@ class Planner:
         self.act_controller = Actuators()
         self.mqtt_controller = MQTT()
         self.sen_controller = Sensors(self.mqtt_controller)
-        self.act_controller.switch_light_green()
         self.mqtt_controller.start()
 
         self.status_green_led = self.act_controller.status_green_led
@@ -234,8 +233,14 @@ class Planner:
                 self.act_controller.make_signpost_brighter()
             elif name == "make_signpost_darker":
                 self.act_controller.make_signpost_darker()
+            elif name == "start_timer":
+                self.act_controller.start_timer()
             elif name == "send_notification":
                 self.act_controller.send_notification()
+            elif name == "activate_signpost":
+                self.act_controller.activate_signpost(args)
+            elif name == "deactivate_signpost":
+                self.act_controller.deactivate_signpost(args)
 
 
 if __name__ == "__main__":

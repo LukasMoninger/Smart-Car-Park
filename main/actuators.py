@@ -18,6 +18,8 @@ class Actuators:
         self.notification_sent = False
         self.status_timer = False
 
+        self.switch_light_red()
+
     def switch_light_green(self):
         grovepi.digitalWrite(self.red_led, 0)
         self.status_red_led = False
@@ -46,7 +48,10 @@ class Actuators:
         self.status_brightness_signpost = False
         print("Signpost made darker")
 
-    def activate_signpost(self):
+    def activate_signpost(self, args):
+        print("Signpost activated")
+
+    def deactivate_signpost(self, args):
         print("Signpost activated")
 
     def start_timer(self):
