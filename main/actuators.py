@@ -1,6 +1,10 @@
 import grovepi
 import threading
 import notification
+import os
+
+from twilio.rest import Client
+from dotenv import load_dotenv
 
 
 class Actuators:
@@ -10,6 +14,12 @@ class Actuators:
         self.red_led = 2
         grovepi.pinMode(self.green_led, "OUTPUT")
         grovepi.pinMode(self.red_led, "OUTPUT")
+
+        load_dotenv()
+        self._TWILIO_ACCOUNT_SID = os.environ['TWILIO_ACCOUNT_SID']
+        self._TWILIO_AUTH_TOKEN = os.environ['TWILIO_AUTH_TOKEN']
+        self._TWILIO_PHONE_SENDER = "+15137177026"
+        self._TWILIO_PHONE_RECIPIENT = "+4915757086879"
 
         self.status_green_led = False
         self.status_red_led = False
@@ -40,8 +50,9 @@ class Actuators:
         self.status_ventilation = False
         print("Ventilation deactivated")
 
-    def make_signpost_brighter(self):
+    def make_signpost_brighter(self, args):
         self.status_brightness_signpost = True
+        print("args: ", args)
         print("Signpost made brighter")
 
     def make_signpost_darker(self):
@@ -65,7 +76,14 @@ class Actuators:
 
     def send_notification(self):
         text = "Parking time exceeded. Please move your car."
-        notification.send_text_notification(text)
+        print("Using account SID:", self._TWILIO_ACCOUNT_SID)
+        print("Using auth token:", self._TWILIO_AUTH_TOKEN)
+
+        client = Client(self._TWILIO_ACCOUNT_SID, self._TWILIO_AUTH_TOKEN)
+        client.messages.create(
+            to=self._TWILIO_PHONE_RECIPIENT,
+            from_=self._TWILIO_PHONE_SENDER,
+            body=text)
         self.notification_sent = True
         self.status_timer = False
         print(f"Notification sent")

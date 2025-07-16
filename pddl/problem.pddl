@@ -9,6 +9,7 @@
     v1 - ventilation
     s1 - signpost
     s2 - signpost
+    s3 - signpost
     p1 - parking_space
     p2 - parking_space
   )

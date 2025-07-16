@@ -1,5 +1,4 @@
 import subprocess
-import os
 import time
 import grovepi
 
@@ -110,6 +109,7 @@ class Planner:
     v1 - ventilation
     s1 - signpost
     s2 - signpost
+    s3 - signpost
     p1 - parking_space
     p2 - parking_space
   )
@@ -137,8 +137,12 @@ class Planner:
 
         if self.status_brightness_signpost:
             text += "\n    (signpost_bright s1)"
+            text += "\n    (signpost_bright s2)"
+            text += "\n    (signpost_bright s3)"
         else:
             text += "\n    (signpost_dark s1)"
+            text += "\n    (signpost_dark s2)"
+            text += "\n    (signpost_dark s3)"
 
         if self.status_ventilation:
             text += "\n    (ventilation_on v1)"
@@ -230,7 +234,7 @@ class Planner:
             elif name == "deactivate_ventilation":
                 self.act_controller.deactivate_ventilation()
             elif name == "make_signpost_brighter":
-                self.act_controller.make_signpost_brighter()
+                self.act_controller.make_signpost_brighter(args)
             elif name == "make_signpost_darker":
                 self.act_controller.make_signpost_darker()
             elif name == "start_timer":
