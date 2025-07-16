@@ -183,6 +183,7 @@ def test_led_strip():
     LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
     LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
     LED_CHANNEL = 0  # Set to '1' for GPIOs 13, 19, 41, 45 or 53
+    LED_DEVICE = "/dev/gpiomem"
 
     # Create PixelStrip object with appropriate configuration.
     strip = PixelStrip(
@@ -192,7 +193,9 @@ def test_led_strip():
         LED_DMA,
         LED_INVERT,
         LED_BRIGHTNESS,
-        LED_CHANNEL
+        LED_CHANNEL,
+        None,
+        LED_DEVICE
     )
     # Initialize the library (must be called once before other functions).
     strip.begin()
