@@ -3,13 +3,12 @@ import grovepi
 import subprocess
 import os
 import json
-
-os.environ['WS281X_MEMDEV'] = '/dev/gpiomem'
+import board
+import neopixel
 
 from datetime import datetime
 import paho.mqtt.client as mqtt
 from notification import send_text_notification
-from rpi_ws281x import *
 
 light_sensor = 0
 red_led = 2
@@ -178,33 +177,21 @@ def on_message(client, userdata, msg):
 
 
 def test_led_strip():
-    LED_COUNT = 30  # Number of LED pixels.
-    LED_PIN = 21  # GPIO pin connected to the pixels (21 uses PWM)
-    LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800kHz)
-    LED_DMA = 10  # DMA channel to use for generating signal (try 10)
-    LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
-    LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
-    LED_CHANNEL = 0  # Set to '1' for GPIOs 13, 19, 41, 45 or 53
-    # LED_DEVICE = "/dev/gpiomem"
+    PIXEL_PIN = board.D21
+    NUM_PIXELS = 30
+    ORDER = neopixel.GRB  # oder RGB, je nach Band
 
-    # Create PixelStrip object with appropriate configuration.
-    strip = PixelStrip(
-        LED_COUNT,
-        LED_PIN,
-        LED_FREQ_HZ,
-        LED_DMA,
-        LED_INVERT,
-        LED_BRIGHTNESS,
-        LED_CHANNEL,
+    pixels = neopixel.NeoPixel(
+        PIXEL_PIN, NUM_PIXELS,
+        brightness=1.0,
+        auto_write=False,
+        pixel_order=ORDER
     )
-    # Initialize the library (must be called once before other functions).
-    strip.begin()
 
-    for i in range(strip.numPixels()):
-        strip.setPixelColor(i, Color(255, 0, 0))
-        strip.show()
-        time.sleep(1)
-
+    for i in range(NUM_PIXELS):
+        pixels[i] = (255,0,0)
+        pixels.show()
+        time.sleep(0.05)
 
 if __name__ == "__main__":
     setup()
