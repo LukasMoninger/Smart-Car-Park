@@ -178,7 +178,7 @@ def on_message(client, userdata, msg):
 
 def test_led_strip():
     PIXEL_PIN = board.D21
-    NUM_PIXELS = 30
+    NUM_PIXELS = 10
     ORDER = neopixel.GRB  # oder RGB, je nach Band
 
     pixels = neopixel.NeoPixel(
