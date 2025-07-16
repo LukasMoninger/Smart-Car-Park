@@ -1,15 +1,15 @@
 (define (domain smart_car_park)
   (:requirements :strips :typing)
   (:types
-    green_light red_light ultrasonic_entrance light_sensor co2_sensor ventilation signpost parking_space button timer
+    green_light red_light entrance light_sensor co2_sensor ventilation signpost parking_space button timer
   )
   (:predicates
     (green_on ?g - green_light)
     (red_on ?r - red_light)
     (green_off ?g - green_light)
     (red_off ?r - red_light)
-    (detected ?u - ultrasonic_entrance)
-    (not_detected ?u - ultrasonic_entrance)
+    (entrance_detected ?e - entrance)
+    (entrance_not_detected ?e - entrance)
     (bright ?l - light_sensor)
     (dark ?l - light_sensor)
     (signpost_bright ?s - signpost)
@@ -25,33 +25,35 @@
     (button_pressed ?b - button)
     (button_not_pressed ?b - button)
     (timer_expired ?t - timer)
+    (connected ?s - signpost ?p - parking_space)
   )
   (:action switch_light_green
-    :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
+    :parameters (?g - green_light ?r - red_light ?e - entrance ?p - parking_space)
     :precondition (and
-      (red_on ?r)
       (green_off ?g)
-      (not_detected ?u)
+      (red_on ?r)
+      (entrance_detected ?e)
+      (parking_free ?p)
     )
     :effect (and
       (green_on ?g)
       (not (green_off ?g))
-      (not (red_on ?r))
       (red_off ?r)
+      (not (red_on ?r))
     )
   )
   (:action switch_light_red
-    :parameters (?g - green_light ?r - red_light ?u - ultrasonic_entrance)
+    :parameters (?g - green_light ?r - red_light ?e - entrance)
     :precondition (and
-      (green_on ?g)
       (red_off ?r)
-      (detected ?u)
+      (green_on ?g)
+      (entrance_not_detected ?e)
     )
     :effect (and
-      (not (green_on ?g))
-      (green_off ?g)
       (red_on ?r)
       (not (red_off ?r))
+      (green_off ?g)
+      (not (green_on ?g))
     )
   )
   (:action activate_ventilation
@@ -76,7 +78,7 @@
       (not (ventilation_on ?v))
     )
   )
-  (:action make_light_brighter
+  (:action make_signpost_brighter
     :parameters (?l - light_sensor ?s - signpost)
     :precondition (and
       (bright ?l)
@@ -87,7 +89,7 @@
       (not (signpost_dark ?s))
       )
   )
-  (:action make_light_darker
+  (:action make_signpost_darker
     :parameters (?l - light_sensor ?s - signpost)
     :precondition (and
       (dark ?l)
@@ -99,11 +101,13 @@
     )
   )
   (:action activate_signpost
-    :parameters (?s - signpost ?p - parking_space ?u - ultrasonic_entrance)
+    :parameters (?g - green_light ?r - red_light ?s - signpost ?p - parking_space)
     :precondition (and
+      (green_on ?g)
+      (red_off ?r)
       (signpost_off ?s)
       (parking_free ?p)
-      (detected ?u)
+      (connected ?s ?p)
     )
     :effect (and
       (signpost_on ?s)
@@ -111,15 +115,15 @@
     )
   )
   (:action deactivate_signpost
-    :parameters (?s - signpost ?p - parking_space ?u - ultrasonic_entrance)
+    :parameters (?s - signpost ?p - parking_space ?e - entrance)
     :precondition (and
       (signpost_on ?s)
       (parking_free ?p)
-      (detected ?u)
+      (entrance_detected ?e)
     )
     :effect (and
-      (signpost_on ?s)
-      (not (signpost_off ?s))
+      (signpost_off ?s)
+      (not (signpost_on ?s))
     )
   )
   (:action send_notification

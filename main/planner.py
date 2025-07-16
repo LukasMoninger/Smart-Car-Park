@@ -105,14 +105,14 @@ class Planner:
   (:objects
     g1 - green_light
     r1 - red_light
-    u1 - ultrasonic_entrance
+    e1 - entrance
     l1 - light_sensor
     c1 - co2_sensor
     v1 - ventilation
     s1 - signpost
+    s2 - signpost
     p1 - parking_space
     p2 - parking_space
-    p3 - parking_space
   )
   (:init"""
 
@@ -127,9 +127,9 @@ class Planner:
 
         distance = self.sen_controller.read_ultrasonic()
         if distance < self.sen_controller.distance_limit:
-            text += "\n    (detected u1)"
+            text += "\n    (entrance_detected e1)"
         else:
-            text += "\n    (not_detected u1)"
+            text += "\n    (entrance_not_detected e1)"
 
         if self.status_brightness:
             text += "\n    (bright l1)"
@@ -156,6 +156,8 @@ class Planner:
         else:
             text += "\n    (parking_free p1)"
 
+        text += "\n    (connected s1 p1)"
+        text += "\n    (connected s2 p2)"
         text += """\n  )
   (:goal
     (and """
@@ -228,10 +230,10 @@ class Planner:
                 self.act_controller.activate_ventilation()
             elif name == "deactivate_ventilation":
                 self.act_controller.deactivate_ventilation()
-            elif name == "make_light_brighter":
-                self.act_controller.make_light_brighter()
-            elif name == "make_light_darker":
-                self.act_controller.make_light_darker()
+            elif name == "make_signpost_brighter":
+                self.act_controller.make_signpost_brighter()
+            elif name == "make_signpost_darker":
+                self.act_controller.make_signpost_darker()
             elif name == "send_notification":
                 self.act_controller.send_notification()
 

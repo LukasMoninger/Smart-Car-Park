@@ -38,13 +38,13 @@ class Actuators:
         self.status_ventilation = False
         print("Ventilation deactivated")
 
-    def make_light_brighter(self):
+    def make_signpost_brighter(self):
         self.status_brightness_signpost = True
-        print("Light made brighter")
+        print("Signpost made brighter")
 
-    def make_light_darker(self):
+    def make_signpost_darker(self):
         self.status_brightness_signpost = False
-        print("Light made darker")
+        print("Signpost made darker")
 
     def activate_signpost(self):
         print("Signpost activated")

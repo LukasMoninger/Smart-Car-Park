@@ -3,24 +3,27 @@
   (:objects
     g1 - green_light
     r1 - red_light
-    u1 - ultrasonic_entrance
+    e1 - entrance
     l1 - light_sensor
     c1 - co2_sensor
     v1 - ventilation
     s1 - signpost
+    s2 - signpost
     p1 - parking_space
     p2 - parking_space
-    p3 - parking_space
   )
   (:init
     (green_off g1)
     (red_on r1)
-    (not_detected u1)
+    (entrance_not_detected e1)
+    (entrance_not_detected e1)
     (dark l1)
     (signpost_bright s1)
     (ventilation_off v1)
     (co2_low c1)
     (parking_free p1)
+    (connected s1 p1)
+    (connected s2 p2)
   )
   (:goal
     (and
