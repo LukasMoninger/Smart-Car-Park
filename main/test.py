@@ -4,6 +4,8 @@ import subprocess
 import os
 import json
 
+os.environ['WS281X_MEMDEV'] = '/dev/gpiomem'
+
 from datetime import datetime
 import paho.mqtt.client as mqtt
 from notification import send_text_notification
@@ -183,7 +185,7 @@ def test_led_strip():
     LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
     LED_INVERT = False  # True to invert the signal (when using NPN transistor level shift)
     LED_CHANNEL = 0  # Set to '1' for GPIOs 13, 19, 41, 45 or 53
-    LED_DEVICE = "/dev/gpiomem"
+    # LED_DEVICE = "/dev/gpiomem"
 
     # Create PixelStrip object with appropriate configuration.
     strip = PixelStrip(
@@ -194,8 +196,6 @@ def test_led_strip():
         LED_INVERT,
         LED_BRIGHTNESS,
         LED_CHANNEL,
-        None,
-        LED_DEVICE
     )
     # Initialize the library (must be called once before other functions).
     strip.begin()
@@ -203,7 +203,7 @@ def test_led_strip():
     for i in range(strip.numPixels()):
         strip.setPixelColor(i, Color(255, 0, 0))
         strip.show()
-        time.sleep(5)
+        time.sleep(1)
 
 
 if __name__ == "__main__":
