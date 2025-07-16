@@ -79,12 +79,10 @@
     )
   )
   (:action make_signpost_brighter
-    :parameters (?l - light_sensor ?s1 - signpost ?s2 - signpost ?s3 - signpost)
+    :parameters (?l - light_sensor ?s - signpost)
     :precondition (and
       (bright ?l)
-      (signpost_dark ?s1)
-      (signpost_dark ?s2)
-      (signpost_dark ?s3)
+      (signpost_dark ?s)
     )
     :effect (and
       (signpost_bright ?s)
