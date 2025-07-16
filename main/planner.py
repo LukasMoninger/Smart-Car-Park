@@ -32,6 +32,9 @@ class Planner:
         self.status_button = self.sen_controller.get_status_button()
         self.status_button_last = self.status_button
 
+        self.status_timer = self.act_controller.status_timer
+        self.status_timer_last = self.status_timer
+
     def start_planner(self):
         interval = 4
         while True:
@@ -87,6 +90,12 @@ class Planner:
             change = True
             self.status_button_last = self.status_button
             print("Button status changed")
+
+        self.status_timer = self.act_controller.status_timer
+        if self.status_timer != self.status_timer_last:
+            change = True
+            self.status_timer_last = self.status_timer
+            print("Timer status changed")
 
         return change
 
