@@ -164,12 +164,12 @@ class Planner:
         text += """\n  )
   (:goal
     (and """
-        if self.status_green_led and distance > self.sen_controller.distance_limit:
-            text += "\n      (green_off g1)"
-            text += "\n      (red_on r1)"
-        else:
+        if self.status_red_led and distance < self.sen_controller.distance_limit:
             text += "\n      (green_on g1)"
             text += "\n      (red_off r1)"
+        else:
+            text += "\n      (green_off g1)"
+            text += "\n      (red_on r1)"
 
         if self.status_brightness:
             text += "\n      (signpost_bright s1)"
