@@ -7,6 +7,7 @@ import json
 from datetime import datetime
 import paho.mqtt.client as mqtt
 from notification import send_text_notification
+from rpi_ws281x import *
 
 light_sensor = 0
 red_led = 2
@@ -22,7 +23,8 @@ test_ultrasonic_flag = False
 test_brightness_flag = False
 test_messaging_flag = False
 test_pddl_flag = False
-test_mqtt_flag = True
+test_mqtt_flag = False
+test_led_strip_flag = True
 
 
 def setup():
@@ -173,6 +175,13 @@ def on_message(client, userdata, msg):
         print(f"[{datetime.now()}] {msg.topic}: {data}")
 
 
+def test_led_strip():
+    strip = Adafruit_NeoPixel(TOTAL_LED_COUNT, 21, 800000, 5, False, 255)
+    strip.begin()
+    strip.setPixelColorRGB(LED_CHIP_NUMBER, R, G, B)
+    strip.show()
+
+
 if __name__ == "__main__":
     setup()
 
@@ -189,3 +198,5 @@ if __name__ == "__main__":
         test_pddl()
     if test_mqtt_flag:
         test_mqtt()
+    if test_led_strip_flag:
+        test_led_strip()

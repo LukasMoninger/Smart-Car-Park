@@ -240,7 +240,7 @@ class Planner:
             elif name == "make_signpost_brighter":
                 self.act_controller.make_signpost_brighter(args)
             elif name == "make_signpost_darker":
-                self.act_controller.make_signpost_darker()
+                self.act_controller.make_signpost_darker(args)
             elif name == "start_timer":
                 self.act_controller.start_timer()
             elif name == "send_notification":

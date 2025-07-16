@@ -52,10 +52,9 @@ class Actuators:
 
     def make_signpost_brighter(self, args):
         self.status_brightness_signpost = True
-        print("args: ", args)
         print("Signpost made brighter")
 
-    def make_signpost_darker(self):
+    def make_signpost_darker(self, args):
         self.status_brightness_signpost = False
         print("Signpost made darker")
 
