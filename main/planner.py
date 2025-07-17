@@ -13,7 +13,7 @@ class Planner:
         #self.act_controller = Actuators()
         self.mqtt_controller = MQTT()
         # self.sen_controller = Sensors(self.mqtt_controller)
-        #self.mqtt_controller.start()
+        self.mqtt_controller.start()
         """
 
         self.status_green_led = self.act_controller.status_green_led
