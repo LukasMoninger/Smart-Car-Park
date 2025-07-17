@@ -267,21 +267,6 @@ class Planner:
         else:
             text += "\n      (ventilation_off v1)"
 
-        if self.status_green_led and not self.status_parking1:
-            text += "\n      (signpost_on s1)"
-        else:
-            text += "\n      (signpost_off s1)"
-
-        if self.status_green_led and not self.status_parking2:
-            text += "\n      (signpost_on s2)"
-        else:
-            text += "\n      (signpost_off s2)"
-
-        if self.status_green_led and not self.status_parking3:
-            text += "\n      (signpost_on s3)"
-        else:
-            text += "\n      (signpost_off s3)"
-
         if self.status_green_led:
             if not self.status_parking1:
                 text += "\n      (signpost_on s1)"
@@ -376,4 +361,5 @@ if __name__ == "__main__":
         os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
 
     planner = Planner()
+    time.sleep(3)
     planner.start_planner()
