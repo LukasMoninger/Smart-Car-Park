@@ -33,6 +33,7 @@ class Actuators:
             pixel_order=self._ORDER
         )
         self._brightness = 150
+        self.clear_pixels()
 
         self.status_green_led = False
         self.status_red_led = False
@@ -102,8 +103,13 @@ class Actuators:
             self._pixels.show()
             time.sleep(0.1)
 
+    def clear_pixels(self):
+        for i in range(self._NUM_PIXELS):
+            self._pixels[i] = (0, 0, 0)
+        self._pixels.show()
+
     def deactivate_signpost(self, args):
-        signpost = args[0]
+        signpost = next((arg for arg in args if arg.startswith("s")), None)
         print("Signpost:", signpost)
 
         if signpost == "s1":
