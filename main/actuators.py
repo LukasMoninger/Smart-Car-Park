@@ -81,7 +81,7 @@ class Actuators:
         print("Signpost made darker")
 
     def activate_signpost(self, args):
-        signpost = args[2]
+        signpost = next((arg for arg in args if arg.startswith("s")), None)
         print("Signpost:", signpost)
 
         if signpost == "s1":
