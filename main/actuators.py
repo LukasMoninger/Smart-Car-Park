@@ -32,6 +32,7 @@ class Actuators:
             auto_write=False,
             pixel_order=self._ORDER
         )
+        self._brightness = 150
 
         self.status_green_led = False
         self.status_red_led = False
@@ -68,12 +69,14 @@ class Actuators:
 
     def make_signpost_brighter(self, args):
         self.status_brightness_signpost = True
-        self._pixels.setBrightness(150)
+        self._brightness = 150
+        self.activate_signpost(args)
         print("Signpost made brighter")
 
     def make_signpost_darker(self, args):
         self.status_brightness_signpost = False
-        self._pixels.setBrightness(50)
+        self._brightness = 50
+        self.activate_signpost(args)
         print("Signpost made darker")
 
     def activate_signpost(self, args):
@@ -82,16 +85,16 @@ class Actuators:
 
         if signpost == "s1":
             self.status_signpost1 = True
-            self.activate_pixels(0, 10, (100, 100, 100))
-            self.activate_pixels(30, 35, (100, 100, 100))
+            self.activate_pixels(0, 10, (self._brightness, self._brightness, self._brightness))
+            self.activate_pixels(30, 35, (self._brightness, self._brightness, self._brightness))
         elif signpost == "s2":
             self.status_signpost2 = True
-            self.activate_pixels(10, 20, (100, 100, 100))
-            self.activate_pixels(35, 40, (100, 100, 100))
+            self.activate_pixels(10, 20, (self._brightness, self._brightness, self._brightness))
+            self.activate_pixels(35, 40, (self._brightness, self._brightness, self._brightness))
         elif signpost == "s3":
             self.status_signpost3 = True
-            self.activate_pixels(20, 30, (100, 100, 100))
-            self.activate_pixels(40, 45, (100, 100, 100))
+            self.activate_pixels(20, 30, (self._brightness, self._brightness, self._brightness))
+            self.activate_pixels(40, 45, (self._brightness, self._brightness, self._brightness))
 
     def activate_pixels(self, start, end, color):
         for i in range(start, end):
