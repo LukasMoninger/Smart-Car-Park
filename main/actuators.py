@@ -79,9 +79,9 @@ class Actuators:
         )
 
         for i in range(NUM_PIXELS):
-            pixels[i] = (255, 0, 0)
+            pixels[i] = (0, 255, 0)
             pixels.show()
-            time.sleep(0.05)
+            time.sleep(0.1)
 
 
     def deactivate_signpost(self, args):
