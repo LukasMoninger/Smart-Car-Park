@@ -33,11 +33,11 @@ MQTT_TOPIC = "esp1/sensor/#"
 
 test_led_flag = False
 test_ultrasonic_flag = False
-test_brightness_flag = False
+test_brightness_flag = True
 test_messaging_flag = False
 test_pddl_flag = False
 test_mqtt_flag = False
-test_led_strip_flag = True
+test_led_strip_flag = False
 
 
 def setup():
