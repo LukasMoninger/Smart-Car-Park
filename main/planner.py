@@ -246,12 +246,21 @@ class Planner:
         text += """\n  )
   (:goal
     (and """
-        if self.status_red_led and self.status_entrance:
-            text += "\n      (green_on g1)"
-            text += "\n      (red_off r1)"
+
+        if self.status_red_led:
+            if self.status_entrance:
+                text += "\n      (green_on g1)"
+                text += "\n      (red_off r1)"
+            else:
+                text += "\n      (green_off g1)"
+                text += "\n      (red_on r1)"
         else:
-            text += "\n      (green_off g1)"
-            text += "\n      (red_on r1)"
+            if self.status_entrance:
+                text += "\n      (green_on g1)"
+                text += "\n      (red_off r1)"
+            else:
+                text += "\n      (green_off g1)"
+                text += "\n      (red_on r1)"
 
         if self.status_brightness:
             text += "\n      (signpost_bright s1)"
@@ -361,5 +370,5 @@ if __name__ == "__main__":
         os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
 
     planner = Planner()
-    time.sleep(3)
+    time.sleep(4)
     planner.start_planner()
