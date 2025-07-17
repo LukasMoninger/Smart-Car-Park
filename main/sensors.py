@@ -64,10 +64,10 @@ class Sensors:
         if parking_space == 1:
             distance = self.mqtt_controller.distance
             if distance < 5:
-                print("Parking space occupied")
+                print("Parking space 1 occupied, distance:", distance)
                 return True
             else:
-                print("Parking space free")
+                print("Parking space 1 free, distance:", distance)
                 return False
         else:
             return False

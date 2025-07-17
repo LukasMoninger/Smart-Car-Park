@@ -282,6 +282,24 @@ class Planner:
         else:
             text += "\n      (signpost_off s3)"
 
+        if self.status_green_led:
+            if not self.status_parking1:
+                text += "\n      (signpost_on s1)"
+                text += "\n      (signpost_off s2)"
+                text += "\n      (signpost_off s3)"
+            elif not self.status_parking2:
+                text += "\n      (signpost_off s1)"
+                text += "\n      (signpost_on s2)"
+                text += "\n      (signpost_off s3)"
+            elif not self.status_parking3:
+                text += "\n      (signpost_off s1)"
+                text += "\n      (signpost_off s2)"
+                text += "\n      (signpost_on s3)"
+        else:
+            text += "\n      (signpost_off s1)"
+            text += "\n      (signpost_off s2)"
+            text += "\n      (signpost_off s3)"
+
         text += """\n    )
   )
 )"""
