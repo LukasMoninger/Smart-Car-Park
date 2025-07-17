@@ -63,7 +63,7 @@ void setup() {
 
 void setup_wifi() {
   delay(10);
-  Serial.print("Verbinde mit WLAN ");
+  Serial.print("Connect with WLAN ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -71,20 +71,20 @@ void setup_wifi() {
     Serial.print(".");
   }
   Serial.println("");
-  Serial.print("WLAN verbunden, IP: ");
+  Serial.print("WLAN connected, IP: ");
   Serial.println(WiFi.localIP());
 }
 
 
 void reconnect_mqtt() {
   while (!mqttClient.connected()) {
-    Serial.print("Verbinde MQTT…");
+    Serial.print("Connect MQTT…");
     if (mqttClient.connect("ESP32Client", mqtt_user, mqtt_password)) {
-      Serial.println("verbunden");
+      Serial.println("connected");
     } else {
-      Serial.print("fehlgeschlagen, rc=");
+      Serial.print("failed, rc=");
       Serial.print(mqttClient.state());
-      Serial.println(" – neuer Versuch in 5 s");
+      Serial.println(" – new attempt in 5 s");
       delay(5000);
     }
   }
@@ -171,46 +171,4 @@ void activate_ventilation(){
 
 void deactivate_ventilation(){
   digitalWrite(ventilation, LOW);
-}
-
-void test_temp_humidity() {
-  if (!aht.begin()) {
-    Serial.println("AHT21 nicht gefunden!");
-    while (1) delay(10);
-  }
-  Serial.println("AHT21 bereit.");
-
-  while (true) {
-    sensors_event_t humidity, temp;
-    aht.getEvent(&humidity, &temp);
-    Serial.print("Temp: ");
-    Serial.print(temp.temperature);
-    Serial.print(" °C, ");
-    Serial.print("Luftfeuchte: ");
-    Serial.print(humidity.relative_humidity);
-    Serial.println(" %");
-    delay(2000);
-  }
-}
-
-void test_i2c() {
-  delay(1000);
-  Serial.println("I2C Scanner startet...");
-
-  byte error, address;
-  int nDevices = 0;
-
-  for (address = 1; address < 127; address++) {
-    Wire.beginTransmission(address);
-    error = Wire.endTransmission();
-
-    if (error == 0) {
-      Serial.print("I2C Gerät gefunden bei Adresse 0x");
-      Serial.println(address, HEX);
-      nDevices++;
-    }
-  }
-
-  if (nDevices == 0) Serial.println("Keine I2C-Geräte gefunden.");
-  else Serial.println("Scan abgeschlossen.");
 }
