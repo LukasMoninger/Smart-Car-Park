@@ -71,13 +71,13 @@ class Actuators:
     def make_signpost_brighter(self, args):
         self.status_brightness_signpost = True
         self._brightness = 150
-        self.activate_signpost(args)
+        self.update_signpost(args)
         print("Signpost made brighter")
 
     def make_signpost_darker(self, args):
         self.status_brightness_signpost = False
         self._brightness = 50
-        self.activate_signpost(args)
+        self.update_signpost(args)
         print("Signpost made darker")
 
     def activate_signpost(self, args):
@@ -96,6 +96,15 @@ class Actuators:
             self.status_signpost3 = True
             self.activate_pixels(20, 30, (self._brightness, self._brightness, self._brightness))
             self.activate_pixels(40, 45, (self._brightness, self._brightness, self._brightness))
+
+    def update_signpost(self, args):
+        signpost = next((arg for arg in args if arg.startswith("s")), None)
+        if signpost == "s1" and self.status_signpost1:
+            self.activate_signpost(args)
+        elif signpost == "s2" and self.status_signpost2:
+            self.activate_signpost(args)
+        elif signpost == "s3" and self.status_signpost3:
+            self.activate_signpost(args)
 
     def activate_pixels(self, start, end, color):
         for i in range(start, end):
