@@ -48,7 +48,7 @@ class Planner:
         self.status_parking3_last = self.status_parking3
 
     def start_planner(self):
-        interval = 4
+        interval = 2
         while True:
             if self.state_change_detected():
                 domain = "../pddl/domain.pddl"
