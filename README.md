@@ -39,6 +39,6 @@ allow_anonymous true
 
 To the `/etc/mosquitto/mosquitto.conf` file.
 
-To use the LED strip, you need to install the `rpi_ws281x` library.
-```sudo apt-get install build-essential python-dev python-pip unzip wget scons swig```
-```wget https://github.com/jgarff/rpi_ws281x/archive/master.zip && unzip master.zip && cd rpi_ws281x-master && sudo scons && sudo pip install rpi_ws281x```
+To use the LED strip, you need to install the `neopixel` library.
+```pip3 install adafruit-circuitpython-neopixel```
+This library requires root privileges to run.

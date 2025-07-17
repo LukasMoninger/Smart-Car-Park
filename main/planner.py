@@ -29,9 +29,11 @@ class Planner:
         self.status_co2_last = self.status_co2
         self.status_button = self.sen_controller.get_status_button()
         self.status_button_last = self.status_button
-
         self.status_timer = self.act_controller.status_timer
         self.status_timer_last = self.status_timer
+
+        self.status_entrance = self.sen_controller.get_status_entrance()
+        self.status_entrance_last = self.status_entrance
 
     def start_planner(self):
         interval = 4
@@ -95,6 +97,12 @@ class Planner:
             self.status_timer_last = self.status_timer
             print("Timer status changed")
 
+        self.status_entrance = self.sen_controller.get_status_entrance()
+        if self.status_entrance != self.status_entrance_last:
+            change = True
+            self.status_entrance_last = self.status_entrance
+            print("Entrance status changed")
+
         return change
 
     def generate_problem(self):
@@ -124,8 +132,7 @@ class Planner:
         else:
             text += "\n    (red_off r1)"
 
-        distance = self.sen_controller.read_ultrasonic()
-        if distance < self.sen_controller.distance_limit:
+        if self.status_entrance:
             text += "\n    (entrance_detected e1)"
         else:
             text += "\n    (entrance_not_detected e1)"
@@ -164,7 +171,7 @@ class Planner:
         text += """\n  )
   (:goal
     (and """
-        if self.status_red_led and distance < self.sen_controller.distance_limit:
+        if self.status_red_led and self.status_entrance:
             text += "\n      (green_on g1)"
             text += "\n      (red_off r1)"
         else:

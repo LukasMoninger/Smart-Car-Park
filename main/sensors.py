@@ -12,7 +12,7 @@ class Sensors:
         grovepi.pinMode(self.button, "INPUT")
 
         self.brightness_limit = 200
-        self.distance_limit = 15
+        self.distance_limit = 10
         self.co2_limit = 800
 
     def read_brightness(self):
@@ -35,6 +35,15 @@ class Sensors:
             return distance
         except IOError as e:
             print(f"I/O-Error: {e}")
+
+    def get_status_entrance(self):
+        distance = self.read_ultrasonic()
+        if distance < self.distance_limit:
+            print("Entrance detected")
+            return True
+        else:
+            print("No entrance detected")
+            return False
 
     def read_co2(self):
         c02 = self.mqtt_controller.co2_level
