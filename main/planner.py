@@ -14,7 +14,6 @@ class Planner:
         self.mqtt_controller = MQTT()
         self.sen_controller = Sensors(self.mqtt_controller)
         self.mqtt_controller.start()
-        time.sleep(3)
 
         self.status_green_led = self.act_controller.status_green_led
         self.status_green_led_last = self.status_green_led
@@ -277,19 +276,18 @@ class Planner:
         else:
             text += "\n      (ventilation_off v1)"
 
-        if self.status_green_led:
-            if not self.status_parking1:
-                text += "\n      (signpost_on s1)"
-                text += "\n      (signpost_off s2)"
-                text += "\n      (signpost_off s3)"
-            elif not self.status_parking2:
-                text += "\n      (signpost_off s1)"
-                text += "\n      (signpost_on s2)"
-                text += "\n      (signpost_off s3)"
-            elif not self.status_parking3:
-                text += "\n      (signpost_off s1)"
-                text += "\n      (signpost_off s2)"
-                text += "\n      (signpost_on s3)"
+        if not self.status_parking1 and (self.status_green_led or self.status_signpost1):
+            text += "\n      (signpost_on s1)"
+            text += "\n      (signpost_off s2)"
+            text += "\n      (signpost_off s3)"
+        elif not self.status_parking2 and (self.status_green_led or self.status_signpost2):
+            text += "\n      (signpost_off s1)"
+            text += "\n      (signpost_on s2)"
+            text += "\n      (signpost_off s3)"
+        elif not self.status_parking3 and (self.status_green_led or self.status_signpost3):
+            text += "\n      (signpost_off s1)"
+            text += "\n      (signpost_off s2)"
+            text += "\n      (signpost_on s3)"
         else:
             text += "\n      (signpost_off s1)"
             text += "\n      (signpost_off s2)"
@@ -298,6 +296,7 @@ class Planner:
         text += """\n    )
   )
 )"""
+
         print(text)
         problem_file = "../pddl/smart_car_park_problem.pddl"
         with open(problem_file, "w") as file:

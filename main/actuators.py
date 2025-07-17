@@ -24,7 +24,7 @@ class Actuators:
         self._TWILIO_PHONE_RECIPIENT = "+4915757086879"
 
         self._PIXEL_PIN = board.D21
-        self._NUM_PIXELS = 30
+        self._NUM_PIXELS = 45
         self._ORDER = neopixel.GRB
         self._pixels = neopixel.NeoPixel(
             self._PIXEL_PIN, self._NUM_PIXELS,
@@ -81,12 +81,15 @@ class Actuators:
         if signpost == "s1":
             self.status_signpost1 = True
             self.activate_pixels(0, 10, (100, 100, 100))
+            self.activate_pixels(30, 35, (100, 100, 100))
         elif signpost == "s2":
             self.status_signpost2 = True
             self.activate_pixels(10, 20, (100, 100, 100))
+            self.activate_pixels(35, 40, (100, 100, 100))
         elif signpost == "s3":
             self.status_signpost3 = True
             self.activate_pixels(20, 30, (100, 100, 100))
+            self.activate_pixels(40, 45, (100, 100, 100))
 
     def activate_pixels(self, start, end, color):
         for i in range(start, end):
@@ -101,12 +104,15 @@ class Actuators:
         if signpost == "s1":
             self.status_signpost1 = False
             self.activate_pixels(0, 10, (0, 0, 0))
+            self.activate_pixels(30, 35, (0, 0, 0))
         elif signpost == "s2":
             self.status_signpost2 = False
             self.activate_pixels(10, 20, (0, 0, 0))
+            self.activate_pixels(35, 40, (0, 0, 0))
         elif signpost == "s3":
             self.status_signpost3 = False
             self.activate_pixels(20, 30, (0, 0, 0))
+            self.activate_pixels(40, 45, (0, 0, 0))
 
     def start_timer(self):
         timer_duration = 60.0
