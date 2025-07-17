@@ -204,7 +204,8 @@ class Planner:
     @staticmethod
     def generate_plan(domain, problem):
         timeout = 5
-        cmd = ["pyperplan", domain, problem]
+        # cmd = ["pyperplan", domain, problem]
+        cmd = ["/home/pi/.local/bin/pyperplan", domain, problem]
         solution_file = problem + ".soln"
 
         if os.path.exists(solution_file):
