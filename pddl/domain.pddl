@@ -118,8 +118,8 @@
     :parameters (?s - signpost ?p - parking_space ?e - entrance)
     :precondition (and
       (signpost_on ?s)
-      (parking_free ?p)
-      (entrance_detected ?e)
+      (parking_occupied ?p)
+      (connected ?s ?p)
     )
     :effect (and
       (signpost_off ?s)
