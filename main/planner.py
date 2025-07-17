@@ -262,13 +262,25 @@ class Planner:
             text += "\n      (signpost_dark s2)"
             text += "\n      (signpost_dark s3)"
 
-        if self.status_green_led:
-            text += "\n      (signpost_on s1)"
-
         if self.status_co2:
             text += "\n      (ventilation_on v1)"
         else:
             text += "\n      (ventilation_off v1)"
+
+        if self.status_green_led and not self.status_parking1:
+            text += "\n      (signpost_on s1)"
+        else:
+            text += "\n      (signpost_off s1)"
+
+        if self.status_green_led and not self.status_parking2:
+            text += "\n      (signpost_on s2)"
+        else:
+            text += "\n      (signpost_off s2)"
+
+        if self.status_green_led and not self.status_parking3:
+            text += "\n      (signpost_on s3)"
+        else:
+            text += "\n      (signpost_off s3)"
 
         text += """\n    )
   )
@@ -282,7 +294,6 @@ class Planner:
     @staticmethod
     def generate_plan(domain, problem):
         timeout = 5
-        # cmd = ["pyperplan", domain, problem]
         cmd = ["/home/pi/.local/bin/pyperplan", domain, problem]
         solution_file = problem + ".soln"
 
@@ -339,12 +350,12 @@ class Planner:
 
 if __name__ == "__main__":
     if os.geteuid() != 0:
-        # Erweiter den PYTHONPATH um Benutzerpakete
         user_site = os.path.expanduser("~/.local/lib/python3.9/site-packages")
         python_path = os.environ.get("PYTHONPATH", "")
-        new_pythonpath = f"{user_site}:{python_path}".rstrip(':')
+        new_python_path = f"{user_site}:{python_path}".rstrip(':')
 
         print("Restart with sudo...")
-        os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_pythonpath}", sys.executable] + sys.argv)
+        os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
+
     planner = Planner()
     planner.start_planner()
