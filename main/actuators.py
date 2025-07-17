@@ -98,7 +98,7 @@ class Actuators:
             time.sleep(0.1)
 
     def deactivate_signpost(self, args):
-        signpost = args[2]
+        signpost = args[0]
         print("Signpost:", signpost)
 
         if signpost == "s1":

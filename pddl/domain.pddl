@@ -115,7 +115,7 @@
     )
   )
   (:action deactivate_signpost
-    :parameters (?s - signpost ?p - parking_space ?e - entrance)
+    :parameters (?s - signpost ?p - parking_space)
     :precondition (and
       (signpost_on ?s)
       (parking_occupied ?p)
