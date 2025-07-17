@@ -169,6 +169,10 @@ class Planner:
     p1 - parking_space
     p2 - parking_space
     p3 - parking_space
+    b1 - button
+    t1 - timer
+    t2 - timer
+    t3 - timer
   )
   (:init"""
 
@@ -240,9 +244,19 @@ class Planner:
         else:
             text += "\n    (co2_low c1)"
 
+        if self.status_button:
+            text += "\n    (button_pressed b1)"
+        else:
+            text += "\n    (button_not_pressed b1)"
+
         text += "\n    (connected s1 p1)"
         text += "\n    (connected s2 p2)"
         text += "\n    (connected s3 p3)"
+        text += "\n    (matching t1 p1)"
+        text += "\n    (matching t2 p2)"
+        text += "\n    (matching t3 p3)"
+        text += "\n    (parking_not_disabled p2)"
+        text += "\n    (parking_not_disabled p3)"
         text += """\n  )
   (:goal
     (and """
@@ -361,6 +375,7 @@ class Planner:
 
 
 if __name__ == "__main__":
+    print("Starting Smart Car Park Planner...")
     if os.geteuid() != 0:
         user_site = os.path.expanduser("~/.local/lib/python3.9/site-packages")
         python_path = os.environ.get("PYTHONPATH", "")
@@ -368,6 +383,7 @@ if __name__ == "__main__":
 
         print("Restart with sudo...")
         os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
+        print("Restart failed, exiting...")
 
     planner = Planner()
     planner.start_planner()
