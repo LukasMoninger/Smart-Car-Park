@@ -43,14 +43,9 @@ class Sensors:
         else:
             return False
 
-    def read_co2(self):
-        c02 = self.mqtt_controller.co2_level
-        print(f"CO2 Level: {c02}")
-        return c02
-
     def get_status_co2(self):
-        co2 = self.read_co2()
-        if co2 > self.co2_limit:
+        co2_level = self.mqtt_controller.co2_level
+        if co2_level > self.co2_limit:
             return True
         else:
             return False
