@@ -3,6 +3,18 @@ import grovepi
 import subprocess
 import os
 import json
+import sys
+
+if os.geteuid() != 0:
+    # Erweiter den PYTHONPATH um Benutzerpakete
+    user_site = os.path.expanduser("~/.local/lib/python3.9/site-packages")
+    pythonpath = os.environ.get("PYTHONPATH", "")
+    new_pythonpath = f"{user_site}:{pythonpath}".rstrip(':')
+
+    print("⚠️  Neustart mit sudo...")
+    os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_pythonpath}", sys.executable] + sys.argv)
+
+
 import board
 import neopixel
 
