@@ -8,10 +8,10 @@ import sys
 if os.geteuid() != 0:
     # Erweiter den PYTHONPATH um Benutzerpakete
     user_site = os.path.expanduser("~/.local/lib/python3.9/site-packages")
-    pythonpath = os.environ.get("PYTHONPATH", "")
-    new_pythonpath = f"{user_site}:{pythonpath}".rstrip(':')
+    python_path = os.environ.get("PYTHONPATH", "")
+    new_pythonpath = f"{user_site}:{python_path}".rstrip(':')
 
-    print("⚠️  Neustart mit sudo...")
+    print("Restart with sudo...")
     os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_pythonpath}", sys.executable] + sys.argv)
 
 

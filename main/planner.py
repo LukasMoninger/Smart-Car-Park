@@ -1,5 +1,5 @@
 import subprocess
-import time
+import sys
 import grovepi
 
 from actuators import *
@@ -252,5 +252,13 @@ class Planner:
 
 
 if __name__ == "__main__":
+    if os.geteuid() != 0:
+        # Erweiter den PYTHONPATH um Benutzerpakete
+        user_site = os.path.expanduser("~/.local/lib/python3.9/site-packages")
+        python_path = os.environ.get("PYTHONPATH", "")
+        new_pythonpath = f"{user_site}:{python_path}".rstrip(':')
+
+        print("Restart with sudo...")
+        os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_pythonpath}", sys.executable] + sys.argv)
     planner = Planner()
     planner.start_planner()

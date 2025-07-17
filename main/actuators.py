@@ -1,7 +1,9 @@
 import grovepi
 import threading
-import notification
 import os
+import time
+import board
+import neopixel
 
 from twilio.rest import Client
 from dotenv import load_dotenv
@@ -60,6 +62,27 @@ class Actuators:
 
     def activate_signpost(self, args):
         print("Signpost activated")
+        start_signpost = [0,4,8]
+        end_signpost = [3,7,11]
+        signpost = args[2]
+        print("Signpost:", signpost)
+
+        PIXEL_PIN = board.D21
+        NUM_PIXELS = 10
+        ORDER = neopixel.GRB  # oder RGB, je nach Band
+
+        pixels = neopixel.NeoPixel(
+            PIXEL_PIN, NUM_PIXELS,
+            brightness=1.0,
+            auto_write=False,
+            pixel_order=ORDER
+        )
+
+        for i in range(NUM_PIXELS):
+            pixels[i] = (255, 0, 0)
+            pixels.show()
+            time.sleep(0.05)
+
 
     def deactivate_signpost(self, args):
         print("Signpost activated")
