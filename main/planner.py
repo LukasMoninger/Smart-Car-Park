@@ -14,6 +14,7 @@ class Planner:
         self.mqtt_controller = MQTT()
         self.sen_controller = Sensors(self.mqtt_controller)
         self.mqtt_controller.start()
+        """
 
         self.status_green_led = self.act_controller.status_green_led
         self.status_green_led_last = self.status_green_led
@@ -46,6 +47,7 @@ class Planner:
         self.status_parking2_last = self.status_parking2
         self.status_parking3 = self.sen_controller.get_parking_occupancy(3)
         self.status_parking3_last = self.status_parking3
+        """
 
     def start_planner(self):
         interval = 2
