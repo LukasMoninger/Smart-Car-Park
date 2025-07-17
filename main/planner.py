@@ -12,7 +12,7 @@ class Planner:
     def __init__(self):
         #self.act_controller = Actuators()
         self.mqtt_controller = MQTT()
-        self.sen_controller = Sensors(self.mqtt_controller)
+        # self.sen_controller = Sensors(self.mqtt_controller)
         #self.mqtt_controller.start()
         """
 
