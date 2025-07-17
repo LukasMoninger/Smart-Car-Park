@@ -23,6 +23,16 @@ class Actuators:
         self._TWILIO_PHONE_SENDER = "+15137177026"
         self._TWILIO_PHONE_RECIPIENT = "+4915757086879"
 
+        self._PIXEL_PIN = board.D21
+        self._NUM_PIXELS = 30
+        self._ORDER = neopixel.GRB
+        self._pixels = neopixel.NeoPixel(
+            self._PIXEL_PIN, self._NUM_PIXELS,
+            brightness=1.0,
+            auto_write=False,
+            pixel_order=self._ORDER
+        )
+
         self.status_green_led = False
         self.status_red_led = False
         self.status_ventilation = False
@@ -65,31 +75,38 @@ class Actuators:
         print("Signpost made darker")
 
     def activate_signpost(self, args):
-        print("Signpost activated")
-        start_signpost = [0,4,8]
-        end_signpost = [3,7,11]
         signpost = args[2]
         print("Signpost:", signpost)
 
-        PIXEL_PIN = board.D21
-        NUM_PIXELS = 10
-        ORDER = neopixel.GRB  # oder RGB, je nach Band
+        if signpost == "s1":
+            self.status_signpost1 = True
+            self.activate_pixels(0, 10, (100, 100, 100))
+        elif signpost == "s2":
+            self.status_signpost2 = True
+            self.activate_pixels(10, 20, (100, 100, 100))
+        elif signpost == "s3":
+            self.status_signpost3 = True
+            self.activate_pixels(20, 30, (100, 100, 100))
 
-        pixels = neopixel.NeoPixel(
-            PIXEL_PIN, NUM_PIXELS,
-            brightness=1.0,
-            auto_write=False,
-            pixel_order=ORDER
-        )
-
-        for i in range(NUM_PIXELS):
-            pixels[i] = (0, 255, 0)
-            pixels.show()
+    def activate_pixels(self, start, end, color):
+        for i in range(start, end):
+            self._pixels[i] = color
+            self._pixels.show()
             time.sleep(0.1)
 
-
     def deactivate_signpost(self, args):
-        print("Signpost activated")
+        signpost = args[2]
+        print("Signpost:", signpost)
+
+        if signpost == "s1":
+            self.status_signpost1 = False
+            self.activate_pixels(0, 10, (0, 0, 0))
+        elif signpost == "s2":
+            self.status_signpost2 = False
+            self.activate_pixels(10, 20, (0, 0, 0))
+        elif signpost == "s3":
+            self.status_signpost3 = False
+            self.activate_pixels(20, 30, (0, 0, 0))
 
     def start_timer(self):
         timer_duration = 60.0

@@ -14,6 +14,7 @@ class Planner:
         self.mqtt_controller = MQTT()
         self.sen_controller = Sensors(self.mqtt_controller)
         self.mqtt_controller.start()
+        time.sleep(3)
 
         self.status_green_led = self.act_controller.status_green_led
         self.status_green_led_last = self.status_green_led
@@ -370,5 +371,4 @@ if __name__ == "__main__":
         os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
 
     planner = Planner()
-    time.sleep(4)
     planner.start_planner()
