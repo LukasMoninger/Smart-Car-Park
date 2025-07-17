@@ -30,6 +30,10 @@ class Actuators:
         self.notification_sent = False
         self.status_timer = False
 
+        self.status_signpost1 = False
+        self.status_signpost2 = False
+        self.status_signpost3 = False
+
         self.switch_light_red()
 
     def switch_light_green(self):

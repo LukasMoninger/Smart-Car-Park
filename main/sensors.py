@@ -39,10 +39,8 @@ class Sensors:
     def get_status_entrance(self):
         distance = self.read_ultrasonic()
         if distance < self.distance_limit:
-            print("Entrance detected")
             return True
         else:
-            print("No entrance detected")
             return False
 
     def read_co2(self):
@@ -67,11 +65,14 @@ class Sensors:
         except IOError:
             print("I/O-Error while reading button state")
 
-    def get_parking_occupancy(self):
-        distance = self.mqtt_controller.distance
-        if distance < 5:
-            print("Parking space occupied")
-            return True
+    def get_parking_occupancy(self, parking_space):
+        if parking_space == 1:
+            distance = self.mqtt_controller.distance
+            if distance < 5:
+                print("Parking space occupied")
+                return True
+            else:
+                print("Parking space free")
+                return False
         else:
-            print("Parking space free")
             return False

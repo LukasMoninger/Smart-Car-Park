@@ -31,9 +31,21 @@ class Planner:
         self.status_button_last = self.status_button
         self.status_timer = self.act_controller.status_timer
         self.status_timer_last = self.status_timer
-
         self.status_entrance = self.sen_controller.get_status_entrance()
         self.status_entrance_last = self.status_entrance
+
+        self.status_signpost1 = self.act_controller.status_signpost1
+        self.status_signpost1_last = self.status_signpost1
+        self.status_signpost2 = self.act_controller.status_signpost2
+        self.status_signpost2_last = self.status_signpost2
+        self.status_signpost3 = self.act_controller.status_signpost3
+        self.status_signpost3_last = self.status_signpost3
+        self.status_parking1 = self.sen_controller.get_parking_occupancy(1)
+        self.status_parking1_last = self.status_parking1
+        self.status_parking2 = self.sen_controller.get_parking_occupancy(2)
+        self.status_parking2_last = self.status_parking2
+        self.status_parking3 = self.sen_controller.get_parking_occupancy(3)
+        self.status_parking3_last = self.status_parking3
 
     def start_planner(self):
         interval = 4
@@ -103,6 +115,42 @@ class Planner:
             self.status_entrance_last = self.status_entrance
             print("Entrance status changed")
 
+        self.status_signpost1 = self.act_controller.status_signpost1
+        if self.status_signpost1 != self.status_signpost1_last:
+            change = True
+            self.status_signpost1_last = self.status_signpost1
+            print("Signpost 1 status changed")
+
+        self.status_signpost2 = self.act_controller.status_signpost2
+        if self.status_signpost2 != self.status_signpost2_last:
+            change = True
+            self.status_signpost2_last = self.status_signpost2
+            print("Signpost 2 status changed")
+
+        self.status_signpost3 = self.act_controller.status_signpost3
+        if self.status_signpost3 != self.status_signpost3_last:
+            change = True
+            self.status_signpost3_last = self.status_signpost3
+            print("Signpost 3 status changed")
+
+        self.status_parking1 = self.sen_controller.get_parking_occupancy(1)
+        if self.status_parking1 != self.status_parking1_last:
+            change = True
+            self.status_parking1_last = self.status_parking1
+            print("Parking 1 status changed")
+
+        self.status_parking2 = self.sen_controller.get_parking_occupancy(2)
+        if self.status_parking2 != self.status_parking2_last:
+            change = True
+            self.status_parking2_last = self.status_parking2
+            print("Parking 2 status changed")
+
+        self.status_parking3 = self.sen_controller.get_parking_occupancy(3)
+        if self.status_parking3 != self.status_parking3_last:
+            change = True
+            self.status_parking3_last = self.status_parking3
+            print("Parking 3 status changed")
+
         return change
 
     def generate_problem(self):
@@ -151,6 +199,36 @@ class Planner:
             text += "\n    (signpost_dark s2)"
             text += "\n    (signpost_dark s3)"
 
+        if self.status_signpost1:
+            text += "\n    (signpost_on s1)"
+        else:
+            text += "\n    (signpost_off s1)"
+
+        if self.status_signpost2:
+            text += "\n    (signpost_on s2)"
+        else:
+            text += "\n    (signpost_off s2)"
+
+        if self.status_signpost3:
+            text += "\n    (signpost_on s3)"
+        else:
+            text += "\n    (signpost_off s3)"
+
+        if self.status_parking1:
+            text += "\n    (parking_occupied p1)"
+        else:
+            text += "\n    (parking_free p1)"
+
+        if self.status_parking2:
+            text += "\n    (parking_occupied p2)"
+        else:
+            text += "\n    (parking_free p2)"
+
+        if self.status_parking3:
+            text += "\n    (parking_occupied p3)"
+        else:
+            text += "\n    (parking_free p3)"
+
         if self.status_ventilation:
             text += "\n    (ventilation_on v1)"
         else:
@@ -161,13 +239,9 @@ class Planner:
         else:
             text += "\n    (co2_low c1)"
 
-        if self.sen_controller.get_parking_occupancy():
-            text += "\n    (parking_occupied p1)"
-        else:
-            text += "\n    (parking_free p1)"
-
         text += "\n    (connected s1 p1)"
         text += "\n    (connected s2 p2)"
+        text += "\n    (connected s3 p3)"
         text += """\n  )
   (:goal
     (and """
@@ -186,6 +260,9 @@ class Planner:
             text += "\n      (signpost_dark s1)"
             text += "\n      (signpost_dark s2)"
             text += "\n      (signpost_dark s3)"
+
+        if self.status_green_led:
+            text += "\n      (signpost_on s1)"
 
         if self.status_co2:
             text += "\n      (ventilation_on v1)"
