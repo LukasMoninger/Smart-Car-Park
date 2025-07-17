@@ -50,6 +50,7 @@ class Planner:
     def start_planner(self):
         interval = 2
         while True:
+            print("Loop")
             if self.state_change_detected():
                 domain = "../pddl/domain.pddl"
                 problem = self.generate_problem()
@@ -383,7 +384,6 @@ if __name__ == "__main__":
 
         print("Restart with sudo...")
         os.execvp("sudo", ["sudo", "-E", "env", f"PYTHONPATH={new_python_path}", sys.executable] + sys.argv)
-        print("Restart failed, exiting...")
 
     planner = Planner()
     planner.start_planner()
