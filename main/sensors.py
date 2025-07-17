@@ -11,7 +11,7 @@ class Sensors:
         self.brightness_limit = 200
         self.co2_limit = 800
         self.distance_limit = 10
-        #grovepi.pinMode(self.button_port, "INPUT")
+        grovepi.pinMode(self.button_port, "INPUT")
 
     def get_status_brightness(self):
         try:
